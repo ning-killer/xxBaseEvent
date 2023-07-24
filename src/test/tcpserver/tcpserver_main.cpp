@@ -1,0 +1,170 @@
+/*
+ * vzsdk
+ * Copyright 2013 - 2018, Vzenith Inc.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice,
+ *     this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright notice,
+ *     this list of conditions and the following disclaimer in the documentation
+ *     and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+ * EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include <iostream>
+#include <stdio.h>
+#include "eventservice/net/eventservice.h"
+#include "eventservice/net/networktinterface.h"
+#include "log/log/log_client.h"
+
+const char NOT_FOUND[] =
+  "HTTP/1.0 200 OK\r\n"
+  "Server:Apache Tomcat/5.0.12\r\n"
+  "Content-Type:text/html\r\n\r\n"
+  "<html>"
+  "<head><title>Not Found</title></head>"
+  "<body><h1>"
+  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  "ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  "ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+  "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+  "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+  "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
+  "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+  "lllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
+  "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+  "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+  "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+  "404 Not Found</h1></body>"
+  "</html>";
+
+class TcpServer : public vzes::MessageHandler,
+  public boost::noncopyable,
+  public boost::enable_shared_from_this<TcpServer>,
+  public sigslot::has_slots<> {
+ public:
+  TcpServer(vzes::EventService::Ptr event_service)
+    : event_service_(event_service) {
+  }
+  bool Start() {
+    ASSERT_RETURN_FAILURE(listenser_, false);
+    listenser_ = event_service_->CreateAsyncListener();
+    vzes::SocketAddress address("0.0.0.0", 8099);
+
+    listenser_->SignalNewConnected.connect(
+      this, &TcpServer::OnLisenerAcceptEvent);
+
+    return listenser_->Start(address, false);
+  }
+ private:
+  void OnLisenerAcceptEvent(vzes::AsyncListener::Ptr listener,
+                            vzes::Socket::Ptr s,
+                            int err) {
+
+    vzes::AsyncSocket::Ptr async_socket = event_service_->CreateAsyncSocket(s);
+
+    DLOG_INFO(MOD_EB, "Accept remote socket");
+    if (async_socket && async_socket->IsConnected()) {
+      //
+      async_socket->SignalSocketWriteEvent.connect(
+        this, &TcpServer::OnSocketWriteComplete);
+      async_socket->SignalSocketReadEvent.connect(
+        this, &TcpServer::OnSocketReadComplete);
+      async_socket->SignalSocketErrorEvent.connect(
+        this, &TcpServer::OnSocketErrorEvent);
+      async_socket->AsyncRead();
+      sockets_.push_back(async_socket);
+      if (sockets_.size() == 1) {
+        //event_service_->PostDelayed(5*1000, this, 0);
+      }
+    }
+  }
+
+  void OnLisenerErrorEvent(vzes::AsyncListener::Ptr listener, int err) {
+    DLOG_INFO(MOD_EB, "error event received");
+  }
+
+  ///
+  void OnSocketWriteComplete(vzes::AsyncSocket::Ptr async_socket) {
+    //DLOG_INFO(MOD_EB, "send data done");
+  }
+
+  void OnSocketReadComplete(vzes::AsyncSocket::Ptr async_socket,
+                            vzes::MemBuffer::Ptr data) {
+    //DLOG_INFO(MOD_EB, "received data, size = %d", data->size());
+    //vzes::BlocksPtr &blocks = data->blocks();
+    //for (vzes::BlocksPtr::iterator iter = blocks.begin();
+    //     iter != blocks.end(); iter++) {
+    //  vzes::Block::Ptr block = *iter;
+    //  LOG(L_INFO).write((const char*)block->buffer, block->buffer_size);
+    //}
+
+    DLOG_INFO(MOD_EB, "TcpServer OnSocketReadComplete\n");
+    pack_cnt_ ++;
+    pack_size_ += data->size();
+    async_socket->AsyncWrite(NOT_FOUND, strlen(NOT_FOUND));
+    async_socket->AsyncRead();
+  }
+
+  void OnSocketErrorEvent(vzes::AsyncSocket::Ptr async_socket,
+                          int err) {
+    async_socket->Close();
+    sockets_.remove(async_socket);
+  }
+
+  virtual void OnMessage(vzes::Message *msg) {
+    uint32 count = pack_cnt_;
+    uint32 size = pack_size_;
+    pack_cnt_ = 0;
+    pack_size_ = 0;
+    DLOG_INFO(MOD_EB, "received packets count = %d, total size = %d"
+              ", speed = %d(kbps)", count, size, (8*size)/1024/5);
+    DLOG_INFO(MOD_EB, "Total %u membuffer blocks",
+              vzes::EventService::GetAsyncSocketCacheCnt());
+    event_service_->PostDelayed(5*1000, this, 0);
+  }
+ private:
+  uint32                        pack_cnt_;
+  uint64                        pack_size_;
+  vzes::EventService::Ptr       event_service_;
+  typedef std::list<vzes::AsyncSocket::Ptr> ASSockets;
+  vzes::AsyncListener::Ptr      listenser_;
+  ASSockets                     sockets_;
+};
+
+int main(void) {
+  (void)Log_Init(false);
+  DLOG_INFO(MOD_EB, "Start Create EventService");
+  // Initialize the logging system
+  vzes::LogMessage::LogTimestamps(true);
+  vzes::LogMessage::LogContext(vzes::LS_INFO);
+  vzes::LogMessage::LogThreads(true);
+
+  DLOG_INFO(MOD_EB, "Start Create EventService");
+  vzes::EventService::Ptr event_service =
+    vzes::EventService::CreateCurrentEventService("TcpServer");
+  DLOG_INFO(MOD_EB, "Stop Create EventService");
+  TcpServer tcp_server(event_service);
+  tcp_server.Start();
+  event_service->Run();
+
+  return EXIT_SUCCESS;
+}

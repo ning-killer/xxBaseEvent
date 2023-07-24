@@ -1,0 +1,73 @@
+include(CMakeForceCompiler)
+#this one is important
+SET(CMAKE_SYSTEM_NAME Linux)
+SET(CMAKE_SYSTEM_PROCESSOR arm) 
+#this one not so much
+SET(CMAKE_SYSTEM_VERSION 1)
+
+#CMAKE_FORCE_C_COMPILER(arm-arago-linux-gnueabi-gcc GNU)
+#CMAKE_FORCE_CXX_COMPILER(arm-arago-linux-gnueabi-g++ GNU)
+
+SET(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+SET(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+SET(CMAKE_STRIP arm-linux-gnueabihf-strip)
+SET(BUILD_AR arm-linux-gnueabihf-ar)
+
+# search for programs in the build host directories
+SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+# for libraries and headers in the target directories
+SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+SET(VZPROJECT_INCLUDE_DIR
+	${PROJECT_SOURCE_DIR}/src/lib
+	${PROJECT_SOURCE_DIR}/src/third_part
+	${PROJECT_SOURCE_DIR}/src/third_part/boost
+)
+
+MESSAGE(STATUS "       Add LIBRARY PATH AND NAME")
+IF(CMAKE_BUILD_TYPE MATCHES Debug)
+	MESSAGE(STATUS "       Debug Mode")
+	SET(VZPROJECT_LIBRARY_DIR
+		)
+	SET(VZPROJECT_LINK_LIB
+        -Wl,-rpath=.
+		pthread
+		rt
+		)
+ELSEIF(CMAKE_BUILD_TYPE MATCHES Release)
+	MESSAGE(STATUS "       RELEASE MODE")
+	MESSAGE(STATUS "       UNIX")
+	SET(VZPROJECT_LIBRARY_DIR
+		)
+	SET(VZPROJECT_LINK_LIB
+        -Wl,-rpath=.
+		pthread
+		rt
+		)
+ENDIF()
+
+MESSAGE(STATUS "SETP 4 : ADD CODE SOURCE")
+
+ADD_DEFINITIONS(
+	-DO2
+    -D_LINUX
+    -DPOSIX
+    -DGENERIC_RELAY
+	-fpermissive
+	)
+
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/bin/raspberry")
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/lib/raspberry")
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/lib/raspberry")
+
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG  "${PROJECT_SOURCE_DIR}/bin/raspberry")
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG  "${PROJECT_SOURCE_DIR}/lib/raspberry")
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG  "${PROJECT_SOURCE_DIR}/lib/raspberry")
+
+# With Release properties
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE  "${PROJECT_SOURCE_DIR}/bin/raspberry")
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE  "${PROJECT_SOURCE_DIR}/lib/raspberry")
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE  "${PROJECT_SOURCE_DIR}/lib/raspberry")
+
+
