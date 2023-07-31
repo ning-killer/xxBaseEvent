@@ -1,21 +1,10 @@
-#F:\code\osc\aliyun_opensearch\aliyun_opensearch\builds\vs2013>cmake ../.. -DCMAK
-#E_BUILD_TYPE=DEBUG -DBUILD_CURL_TESTS=OFF -DBUILD_CURL_EXE=OFF -DJSONCPP_WITH_TE
-#STS=OFF -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF
-#  
+# cmake -DCMAKE_BUILD_PLATFORM=UBUNTU64 -DCMAKE_BUILD_TYPE=DEBUG -DSELF_BUILD=on ..
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-IF(SELF_BUILD MATCHES on)
-PROJECT(vzbase)
-ENDIF()
+PROJECT(BaseEvent)
 set_property(GLOBAL PROPERTY USE_FOLDERS On)
 
 MESSAGE(STATUS "01*********************************************************")
-
 INCLUDE(cmake/global_environment_settings.cmake)
-# This Include Will setting
-# include path
-# include library path
-# link library
-
 IF(WIN32)
 	IF(MSVC12)
 		INCLUDE(cmake/win_vs2013_environment_settings.cmake)
