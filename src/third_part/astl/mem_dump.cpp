@@ -3,28 +3,28 @@
 #ifdef MEM_TEST
 typedef struct _malloc_inode {
   _malloc_inode      *next_;
-  unsigned int       alloc_time_s;           // ·ÖÅäÊ±¼ä(Ãë)
-  unsigned int       alloc_time_us;          // ·ÖÅäÊ±¼ä(Î¢Ãî)
-  char              func_name_[32];         // ·ÖÅäÎÄ¼þ
-  unsigned int       func_line_;             // ·ÖÅäÐÐºÅ
-  unsigned int       mem_size_;              // ·ÖÅäÄÚ´æµÄsize
-  unsigned long int  thread_id_;             // ËùÊôÏß³ÌµÄID
-  char              mem_addr_[0];           // ÓÃ»§Ê¹ÓÃµØÖ·
+  unsigned int       alloc_time_s;           // åˆ†é…æ—¶é—´(ç§’)
+  unsigned int       alloc_time_us;          // åˆ†é…æ—¶é—´(å¾®å¦™)
+  char              func_name_[32];         // åˆ†é…æ–‡ä»¶
+  unsigned int       func_line_;             // åˆ†é…è¡Œå·
+  unsigned int       mem_size_;              // åˆ†é…å†…å­˜çš„size
+  unsigned long int  thread_id_;             // æ‰€å±žçº¿ç¨‹çš„ID
+  char              mem_addr_[0];           // ç”¨æˆ·ä½¿ç”¨åœ°å€
 } MEM_INODE;
 
 typedef struct _thread_header_inode {
   _thread_header_inode *next_;
-  MEM_INODE         *fastmem;                // µ±Ç°Ïß³Ì×î¾ÉµÄmem
-  MEM_INODE         *lastmem;                // µ±Ç°Ïß³Ì×îÐÂµÄmem
-  unsigned long int thread_id_;               // Ïß³ÌID
-  char             thread_name_[16];          // Ïß³ÌÃû£¨Ïß³ÌÃû»ñÈ¡ÒªÔÚÏß³ÌÃû±»ÉèÖÃ³É¹¦Ö®ºó²Å¿ÉÒÔ£©
-  unsigned int      current_id_mem_total;      // µ±Ç°Ïß³ÌËùÓÐmemÊý
-  unsigned int      current_id_max_mem_size;   // ·ÖÅä¹ý×î´óµÄÒ»¿éÄÚ´æµÄ´óÐ¡
-  char             max_mem_size_func_name[32]; // ×î´óµÄÄÇ¿éÄÚ´æµÄ·ÖÅäÎÄ¼þ
-  unsigned int      max_mem_size_func_line_;   // ×î´óµÄÄÇ¿éÄÚ´æµÄ·ÖÅäÐÐºÅ
-  unsigned int      current_id_mem_peak;       // µ±Ç°Ïß³Ìmem·åÖµ
-  unsigned int      current_id_mem_peak_time_s; // ·åÖµ³öÏÖÊ±¼ä£¨Ãë£©
-  unsigned int      current_id_mem_peak_time_us; // ·åÖµ³öÏÖÊ±¼ä£¨Î¢Ãî£©
+  MEM_INODE         *fastmem;                // å½“å‰çº¿ç¨‹æœ€æ—§çš„mem
+  MEM_INODE         *lastmem;                // å½“å‰çº¿ç¨‹æœ€æ–°çš„mem
+  unsigned long int thread_id_;               // çº¿ç¨‹ID
+  char             thread_name_[16];          // çº¿ç¨‹åï¼ˆçº¿ç¨‹åèŽ·å–è¦åœ¨çº¿ç¨‹åè¢«è®¾ç½®æˆåŠŸä¹‹åŽæ‰å¯ä»¥ï¼‰
+  unsigned int      current_id_mem_total;      // å½“å‰çº¿ç¨‹æ‰€æœ‰memæ•°
+  unsigned int      current_id_max_mem_size;   // åˆ†é…è¿‡æœ€å¤§çš„ä¸€å—å†…å­˜çš„å¤§å°
+  char             max_mem_size_func_name[32]; // æœ€å¤§çš„é‚£å—å†…å­˜çš„åˆ†é…æ–‡ä»¶
+  unsigned int      max_mem_size_func_line_;   // æœ€å¤§çš„é‚£å—å†…å­˜çš„åˆ†é…è¡Œå·
+  unsigned int      current_id_mem_peak;       // å½“å‰çº¿ç¨‹memå³°å€¼
+  unsigned int      current_id_mem_peak_time_s; // å³°å€¼å‡ºçŽ°æ—¶é—´ï¼ˆç§’ï¼‰
+  unsigned int      current_id_mem_peak_time_us; // å³°å€¼å‡ºçŽ°æ—¶é—´ï¼ˆå¾®å¦™ï¼‰
 } Tid;
 
 Tid* g_thread_heap = NULL;
@@ -34,7 +34,7 @@ static unsigned int g_mem_head_total = 0;
 static unsigned int g_tid_mem_toal = 0;
 vzes::CriticalSection *g_md_mutex_;
 
-// »¥³âËø£¬È·±£ËøÏÈ³õÊ¼»¯
+// äº’æ–¥é”ï¼Œç¡®ä¿é”å…ˆåˆå§‹åŒ–
 vzes::CriticalSection *GetCriticalInstance() {
   if (g_md_mutex_ == NULL) {
     static vzes::CriticalSection cs;
@@ -47,7 +47,7 @@ vzes::CriticalSection *GetCriticalInstance() {
 void BackTrace(MEM_INODE *pcur) {
   static HANDLE process = NULL;
   if (NULL == process) {
-    // »ñµÃ½ø³Ì¾ä±ú
+    // èŽ·å¾—è¿›ç¨‹å¥æŸ„
     process = GetCurrentProcess();
     //
     SymInitialize(process, NULL, TRUE);
@@ -113,8 +113,8 @@ char* GetThreadName() {
 
 void TimeSecond(MEM_INODE *pNode) {
 #ifdef WIN32
-  // windowsÏÂÎÞ·¨»ñÈ¡¾«È·µÄusec£¬Ã¿´ÎµÝÔö1Î¢ÃëÀ´Çø·ÖÊ±¼ä£¬
-  // µ«¸ÅÂÊ´æÔÚÊ±¼ä·´×ª
+  // windowsä¸‹æ— æ³•èŽ·å–ç²¾ç¡®çš„usecï¼Œæ¯æ¬¡é€’å¢ž1å¾®ç§’æ¥åŒºåˆ†æ—¶é—´ï¼Œ
+  // ä½†æ¦‚çŽ‡å­˜åœ¨æ—¶é—´åè½¬
   static uint32 offset = 0;
   offset = (offset + 1) & (31);
   vzes::TimeVal tv;
@@ -133,7 +133,7 @@ int TidInsert(MEM_INODE *tid_node) {
   if (!tid_node) {
     return -1;
   }
-  // Èç¹ûÊÇµÚÒ»¸öÏß³Ì
+  // å¦‚æžœæ˜¯ç¬¬ä¸€ä¸ªçº¿ç¨‹
   if (!g_thread_heap) {
     g_thread_heap = (Tid *)malloc(sizeof(Tid));
     g_tid_mem_toal += sizeof(Tid);
@@ -149,7 +149,7 @@ int TidInsert(MEM_INODE *tid_node) {
   Tid *tid = g_thread_heap;
   while (tid->thread_id_ != tid_node->thread_id_) {
     tid = tid->next_;
-    // Èç¹ûÊÇÐÂÏß³Ì
+    // å¦‚æžœæ˜¯æ–°çº¿ç¨‹
     if (!tid) {
       tid = (Tid *)malloc(sizeof(Tid));
       g_tid_mem_toal += sizeof(Tid);
@@ -164,7 +164,7 @@ int TidInsert(MEM_INODE *tid_node) {
       g_thread_tail = g_thread_tail->next_;
     }
   }
-  // Èç¹ûÊÇ¸ÃÏß³ÌÉÏµÄµÚÒ»¸ö½Úµã
+  // å¦‚æžœæ˜¯è¯¥çº¿ç¨‹ä¸Šçš„ç¬¬ä¸€ä¸ªèŠ‚ç‚¹
   if (!tid->current_id_mem_total) {
     tid->fastmem = tid_node;
     tid->lastmem = tid_node;
@@ -177,7 +177,7 @@ int TidInsert(MEM_INODE *tid_node) {
     tid->current_id_mem_peak_time_us = tid->lastmem->alloc_time_us;
     return 0;
   }
-  // Èç¹û²»ÊÇµÚÒ»¸ö½Úµã
+  // å¦‚æžœä¸æ˜¯ç¬¬ä¸€ä¸ªèŠ‚ç‚¹
   tid->current_id_mem_total += (tid_node->mem_size_ + sizeof(MEM_INODE));
   //if (!strlen(tid->thread_name_)) {
   //  strcpy(tid->thread_name_,GetThreadName());
@@ -199,13 +199,13 @@ int Insert(MEM_INODE *pNode, unsigned int nSize,
     return -1;
   }
   pNode->next_ = NULL;
-  TimeSecond(pNode); // ·ÖÅäÊ±¼ä
-  pNode->thread_id_ = ThreadID(); // ËùÊôÏß³Ì
+  TimeSecond(pNode); // åˆ†é…æ—¶é—´
+  pNode->thread_id_ = ThreadID(); // æ‰€å±žçº¿ç¨‹
   pNode->mem_size_ = nSize;
   strcpy(pNode->func_name_,pFunc);
   pNode->func_line_ = nLine;
   //BackTrace(pNode);
-  TidInsert(pNode); // ¼ÓÈëÏß³ÌidÁ´±í
+  TidInsert(pNode); // åŠ å…¥çº¿ç¨‹idé“¾è¡¨
   g_mem_head_total = g_mem_head_total + sizeof(MEM_INODE);
   g_mem_total += (pNode->mem_size_ + sizeof(MEM_INODE));
   return 0;
@@ -216,28 +216,28 @@ MEM_INODE *TidDelete(unsigned long int thread_id, void *pPtr) {
     printf("Tid delete false,thread id is: %d\n",thread_id);
     return NULL;
   }
-  // ´ÓTidÁ´±íµÄµÚÒ»¸ö½Úµã¿ªÊ¼
+  // ä»ŽTidé“¾è¡¨çš„ç¬¬ä¸€ä¸ªèŠ‚ç‚¹å¼€å§‹
   Tid* tid = g_thread_heap, *pre_tid = g_thread_heap;
   while (tid->thread_id_ != thread_id) {
     pre_tid = tid;
     tid = tid->next_;
-    // Èç¹ûÃ»ÓÐ¸ÃÏß³Ì
+    // å¦‚æžœæ²¡æœ‰è¯¥çº¿ç¨‹
     if (!tid) {
       printf("Tid delete false,thread id is: %d\n", thread_id);
       return NULL;
     }
   }
-  // Èç¹û¸ÃÏß³ÌÉÏÃ»ÓÐ½Úµã,É¾µô
+  // å¦‚æžœè¯¥çº¿ç¨‹ä¸Šæ²¡æœ‰èŠ‚ç‚¹,åˆ æŽ‰
   if (tid->current_id_mem_total == 0) {
-    // Èç¹ûÉ¾µôµÄÏß³ÌÁ´±íµÄÍ·½Úµã
+    // å¦‚æžœåˆ æŽ‰çš„çº¿ç¨‹é“¾è¡¨çš„å¤´èŠ‚ç‚¹
     if (tid == g_thread_heap) {
       g_thread_heap = g_thread_heap->next_;
     } else if (tid == g_thread_tail) {
-      //  Èç¹ûÉ¾µôµÄÊÇÏß³ÌÁ´±íµÄÎ²½áµã
+      //  å¦‚æžœåˆ æŽ‰çš„æ˜¯çº¿ç¨‹é“¾è¡¨çš„å°¾ç»“ç‚¹
       g_thread_tail = pre_tid;
       pre_tid->next_ = NULL;
     } else {
-      // Èç¹ûÉ¾µôµÄÊÇÏß³ÌÁ´±íµÄÖÐ¼ä½Úµã
+      // å¦‚æžœåˆ æŽ‰çš„æ˜¯çº¿ç¨‹é“¾è¡¨çš„ä¸­é—´èŠ‚ç‚¹
       pre_tid->next_ = tid->next_;
     }
     g_tid_mem_toal -= sizeof(Tid);
@@ -248,30 +248,30 @@ MEM_INODE *TidDelete(unsigned long int thread_id, void *pPtr) {
   MEM_INODE *pre_pcur = tid->fastmem, *pcur = tid->fastmem;
   while (pcur) {
     if (pcur->mem_addr_ == pPtr) {
-      // Èç¹ûÉ¾³ý¸ÃÏß³ÌµÄÍ·½áµã
+      // å¦‚æžœåˆ é™¤è¯¥çº¿ç¨‹çš„å¤´ç»“ç‚¹
       if (pcur == tid->fastmem) {
         tid->fastmem = tid->fastmem->next_;
       } else if (pcur == tid->lastmem) {
-        // Èç¹ûÉ¾³ýµÄÊÇÎ²½áµã
+        // å¦‚æžœåˆ é™¤çš„æ˜¯å°¾ç»“ç‚¹
         tid->lastmem = pre_pcur;
         pre_pcur->next_ = NULL;
       } else {
-        // Èç¹ûÊÇÖÐ¼ä½Úµã
+        // å¦‚æžœæ˜¯ä¸­é—´èŠ‚ç‚¹
         pre_pcur->next_ = pcur->next_;
         pcur->next_ = NULL;
       }
       tid->current_id_mem_total -= (pcur->mem_size_ + sizeof(MEM_INODE));
-      // Èç¹ûÉ¾µôpcurÖ®ºóÏß³ÌÃ»ÓÐÄÚ´æ¹ÜÀí£¬É¾µô
+      // å¦‚æžœåˆ æŽ‰pcurä¹‹åŽçº¿ç¨‹æ²¡æœ‰å†…å­˜ç®¡ç†ï¼Œåˆ æŽ‰
       if (tid->current_id_mem_total == 0) {
-        // Èç¹ûÉ¾µôµÄÏß³ÌÁ´±íµÄÍ·½Úµã
+        // å¦‚æžœåˆ æŽ‰çš„çº¿ç¨‹é“¾è¡¨çš„å¤´èŠ‚ç‚¹
         if (tid == g_thread_heap) {
           g_thread_heap = g_thread_heap->next_;
         } else if (tid == g_thread_tail) {
-          //  Èç¹ûÉ¾µôµÄÊÇÏß³ÌÁ´±íµÄÎ²½áµã
+          //  å¦‚æžœåˆ æŽ‰çš„æ˜¯çº¿ç¨‹é“¾è¡¨çš„å°¾ç»“ç‚¹
           g_thread_tail = pre_tid;
           pre_tid->next_ = NULL;
         } else {
-          // Èç¹ûÉ¾µôµÄÊÇÏß³ÌÁ´±íµÄÖÐ¼ä½Úµã
+          // å¦‚æžœåˆ æŽ‰çš„æ˜¯çº¿ç¨‹é“¾è¡¨çš„ä¸­é—´èŠ‚ç‚¹
           pre_tid->next_ = tid->next_;
         }
         g_tid_mem_toal -= sizeof(Tid);
@@ -290,7 +290,7 @@ MEM_INODE *Delete(void *pPtr) {
     return NULL;
   }
   unsigned long int thread_id;
-  thread_id = (unsigned long int)*((int*)pPtr - 1);// ½á¹¹ÌåÐéÄâµØÖ·ÊÇÁ¬ÔÚÒ»ÆðµÄ
+  thread_id = (unsigned long int)*((int*)pPtr - 1);// ç»“æž„ä½“è™šæ‹Ÿåœ°å€æ˜¯è¿žåœ¨ä¸€èµ·çš„
   MEM_INODE* pcur = TidDelete(thread_id, pPtr);
   if (pcur) {
     g_mem_head_total = g_mem_head_total - sizeof(MEM_INODE);
@@ -507,7 +507,7 @@ char *GetFileName(char* file) {
   } else {
     file_name += 1;
   }
-  // ³¬³¤½Ø¶Ï
+  // è¶…é•¿æˆªæ–­
   if (strlen(file_name) > 32) {
     char file_name_s[32];
     strncpy(file_name_s, file_name, 32);

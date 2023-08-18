@@ -61,28 +61,28 @@ extern "C"
 #endif // End of #ifdef __cplusplus
 
 enum {
-  TO_FILE  = 0x01,    // д���ļ�
-  TO_POINT = 0x02,    // ��ӡ����Ļ
+  TO_FILE  = 0x01,    // 写入文件
+  TO_POINT = 0x02,    // 打印到屏幕
 };
 typedef unsigned char MEM_DUMP_END_E;
 
 enum {
-  TOTAL   = 0x01,     // ����
-  DETAIL  = 0x02,     // ��ϸ
+  TOTAL   = 0x01,     // 总体
+  DETAIL  = 0x02,     // 详细
 };
 typedef unsigned char MEM_DUMP_TYPE_E;
 
-// ����ڴ�������
-// end: ����նˣ�TO_FILE:д���ļ���TO_POINT:��ӡ����Ļ
-// type: �����ʽ��TOTAL:���ÿ���߳�ʹ�������DETAIL:��������ڴ����ϸ��Ϣ
-// ѡ��������ļ�����������ڴ����ϸ��Ϣʱ��������е��ڴ�飬�ȽϺ�ʱ��
+// 输出内存分配情况
+// end: 输出终端，TO_FILE:写入文件，TO_POINT:打印到屏幕
+// type: 输出方式，TOTAL:输出每个线程使用情况，DETAIL:输出所有内存块详细信息
+// 选择输出到文件且输出所有内存块详细信息时会遍历所有的内存块，比较耗时。
 extern void DumpMemInfo(const MEM_DUMP_END_E end, const MEM_DUMP_TYPE_E type);
 
-// ��������߳��ڴ�������
-// thread_id : �߳�id
-// end: ����նˣ�TO_FILE:д���ļ���TO_POINT:��ӡ����Ļ
-// type: �����ʽ��TOTAL:������̵߳�����ʹ�������DETAIL:������߳������ڴ����ϸ��Ϣ
-// �߳�idÿ�ζ���ı䣬���߳�����ȡ���˵�����£���Ҫÿһ���ȴ�ӡ��task��Ϣ
+// 输出单个线程内存分配情况
+// thread_id : 线程id
+// end: 输出终端，TO_FILE:写入文件，TO_POINT:打印到屏幕
+// type: 输出方式，TOTAL:输出该线程的整体使用情况，DETAIL:输出该线程所有内存块详细信息
+// 线程id每次都会改变，在线程名获取不了的情况下，需要每一次先打印出task信息
 extern void DumpSingleThreadMemInfo(const unsigned int thread_id,
                                 const MEM_DUMP_END_E end, const MEM_DUMP_TYPE_E type);
 
