@@ -1,29 +1,4 @@
-/*
- * vzes
- * Copyright 2013 - 2018, Vzenith Inc.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *  1. Redistributions of source code must retain the above copyright notice,
- *     this list of conditions and the following disclaimer.
- *  2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *  3. The name of the author may not be used to endorse or promote products
- *     derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
- * EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+//
 
 
 #ifndef EVENTSERVICE_EVENT_MESSAGEQUEUE_H_
@@ -54,15 +29,15 @@ class MessageQueue;
 
 // MessageQueueManager does cleanup of of message queues
 
-// 消息队列管理器
-// 此类是一个全局单例类，用于管理消息队列
+// 锟斤拷息锟斤拷锟叫癸拷锟斤拷锟斤拷
+// 锟斤拷锟斤拷锟斤拷一锟斤拷全锟街碉拷锟斤拷锟洁，锟斤拷锟节癸拷锟斤拷锟斤拷息锟斤拷锟斤拷
 class MessageQueueManager {
  public:
-  // 添加消息队列
-  // message_queue:消息队列
+  // 锟斤拷锟斤拷锟斤拷息锟斤拷锟斤拷
+  // message_queue:锟斤拷息锟斤拷锟斤拷
   static void Add(MessageQueue *message_queue);
-  // 删除消息队列
-  // message_queue:消息队列
+  // 删锟斤拷锟斤拷息锟斤拷锟斤拷
+  // message_queue:锟斤拷息锟斤拷锟斤拷
   static void Remove(MessageQueue *message_queue);
   static void Clear(MessageHandler *handler);
 
@@ -73,7 +48,7 @@ class MessageQueueManager {
   static bool IsInitialized();
 
  private:
-  // 获取MessageQueueManager实例，若已经创建,直接返回其实例
+  // 锟斤拷取MessageQueueManager实锟斤拷锟斤拷锟斤拷锟窖撅拷锟斤拷锟斤拷,直锟接凤拷锟斤拷锟斤拷实锟斤拷
   static MessageQueueManager* Instance();
 
   MessageQueueManager();
@@ -83,10 +58,10 @@ class MessageQueueManager {
   void RemoveInternal(MessageQueue *message_queue);
   void ClearInternal(MessageHandler *handler);
 
-  static MessageQueueManager* instance_; // 消息队列管理器实例
+  static MessageQueueManager* instance_; // 锟斤拷息锟斤拷锟叫癸拷锟斤拷锟斤拷实锟斤拷
   // This list contains 'active' MessageQueues.
-  std::vector<MessageQueue *> message_queues_; // 消息队列
-  CriticalSection crit_; // 线程互斥锁
+  std::vector<MessageQueue *> message_queues_; // 锟斤拷息锟斤拷锟斤拷
+  CriticalSection crit_; // 锟竭程伙拷锟斤拷锟斤拷
 };
 
 // Derive from this for specialized data

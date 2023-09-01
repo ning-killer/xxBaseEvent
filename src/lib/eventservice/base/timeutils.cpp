@@ -1,29 +1,4 @@
-/*
- * vzes
- * Copyright 2013 - 2018, Vzenith Inc.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *  1. Redistributions of source code must retain the above copyright notice,
- *     this list of conditions and the following disclaimer.
- *  2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *  3. The name of the author may not be used to endorse or promote products
- *     derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
- * EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+//
 
 #ifdef POSIX
 #include <sys/time.h>
@@ -111,7 +86,7 @@ int TimeOfDay(TimeVal* tv, void *tz) {
   li.LowPart = ft.dwLowDateTime;
   li.HighPart = ft.dwHighDateTime;
 
-  // »ñµÃµ±Ç°windowsÉÏËùÔÚÊ±Çø£¬Ê±¼ä´ÁÓëÏà»úÐ­Í¬£¬±ÈÕæÊµÊ±¼ä¿ìÉÏÊ±Çø²îµÄÊ±¼ä´Á
+  // ï¿½ï¿½Ãµï¿½Ç°windowsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð­Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÊµÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½
   int time_zone = GetLocalTimeZone();
   long time_zone_diff = time_zone * 3600;
 
@@ -146,7 +121,7 @@ int GetClockOfDay(struct timeval *tv, void * /*tzv*/) {
 
 #if defined(WIN32)
 // Emulate POSIX gmtime_r().
-// ·µ»ØµÄÊ±¼äÈÕÆÚÎ´¾­Ê±Çø×ª»»£¬ÊÇUTCÊ±¼ä(ÓÖ³ÆÎªÊÀ½çÊ±¼ä£¬¼´¸ñÁÖÄáÖÎÊ±¼ä)
+// ï¿½ï¿½ï¿½Øµï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½Ê±ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UTCÊ±ï¿½ï¿½(ï¿½Ö³ï¿½Îªï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½)
 static struct tm *gmtime_r(const time_t *timep, struct tm *result) {
   struct tm *tm = NULL;
 #ifdef WIN32
@@ -176,7 +151,7 @@ void CurrentTmTime(struct tm *tm, int *microseconds) {
   *microseconds = timeval.usec;
 }
 
-// ·µ»Øµ±Ç°windowsËùÔÚÊ±Çø£¨Èç¹ûÊÇ¶«Ê±ÇøÎªÕý£¬Èç¹ûÊÇÎ÷Ê±ÇøÎª¸º£©
+// ï¿½ï¿½ï¿½Øµï¿½Ç°windowsï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½Ê±ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 int GetLocalTimeZone() {
 #ifdef WIN32
   time_t time_utc;
@@ -198,13 +173,13 @@ int GetLocalTimeZone() {
 
 void TimeMkLocal(TimeLocal *time, uint32 sec) {
 #ifdef WIN32
-  // windowsµÄÊ±¼ä´ÁºÍCÏà»úÐ­Í¬£¬×ª»»ÐèÒª°´ÕÕ0Ê±Çøµ÷Õû¡£
+  // windowsï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ð­Í¬ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½0Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   int time_zone = 0;
   time_zone = GetLocalTimeZone();
   int time_zone_diff = time_zone * 3600;
   sec = sec - time_zone_diff;
 #endif
-  // »ñÈ¡±¾µØÊ±¼ä,¼´¾­¹ýÊ±Çø×ª»»µÄÊ±¼ä
+  // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
   time_t secs = sec;
   struct tm *tp = localtime(&secs);
 

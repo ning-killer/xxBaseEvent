@@ -1,29 +1,4 @@
-/*
- * vzes
- * Copyright 2013 - 2018, Vzenith Inc.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *  1. Redistributions of source code must retain the above copyright notice,
- *     this list of conditions and the following disclaimer.
- *  2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *  3. The name of the author may not be used to endorse or promote products
- *     derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
- * EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+//
 
 
 #ifndef SRC_BASE_TIMEUTILS_H_
@@ -54,14 +29,14 @@ static const int64 kJan1970AsNtpMillisecs = INT64_C(2208988800000);
 typedef uint32 TimeStamp;
 
 typedef struct {
-  uint32 usec;   // Î¢Ãë£¬·¶Î§: 0~999999
-  uint32 sec;    // Ãë£¬·¶Î§: 0~59
-  uint32 min;    // ·ÖÖÓ£¬·¶Î§: 0~59
-  uint32 hour;   // Ð¡Ê±£¬·¶Î§: 0~23
-  uint32 day;    // ÈÕ£¬·¶Î§: 1~31
-  uint32 month;  // ÔÂ£¬·¶Î§: 1~12
-  uint32 year;   // Äê£¬·¶Î§: 1970~...
-  uint32 wday;   // ÐÇÆÚ£¬monday,tuesday,...,·¶Î§ : 0 ~6
+  uint32 usec;   // Î¢ï¿½ë£¬ï¿½ï¿½Î§: 0~999999
+  uint32 sec;    // ï¿½ë£¬ï¿½ï¿½Î§: 0~59
+  uint32 min;    // ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½Î§: 0~59
+  uint32 hour;   // Ð¡Ê±ï¿½ï¿½ï¿½ï¿½Î§: 0~23
+  uint32 day;    // ï¿½Õ£ï¿½ï¿½ï¿½Î§: 1~31
+  uint32 month;  // ï¿½Â£ï¿½ï¿½ï¿½Î§: 1~12
+  uint32 year;   // ï¿½ê£¬ï¿½ï¿½Î§: 1970~...
+  uint32 wday;   // ï¿½ï¿½ï¿½Ú£ï¿½monday,tuesday,...,ï¿½ï¿½Î§ : 0 ~6
 } TimeLocal;
 
 typedef struct {
@@ -86,15 +61,15 @@ uint64 TimeSecond();
 // Stores current time in *tm and microseconds in *microseconds.
 void CurrentTmTime(struct tm *tm, int *microseconds);
 
-// ·µ»Øµ±Ç°ËùÔÚÊ±Çø£¬¶«Ê±ÇøÎªÕý£¬Î÷Ê±ÇøÎª¸º
+// ï¿½ï¿½ï¿½Øµï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Îªï¿½ï¿½
 int GetLocalTimeZone();
 
-// ºÍº¯ÊýTimeMkUTCÏà·´µÄ²Ù×÷£¬½«Ãë(UTCÊ±¼ä)×ª»»Îªµ±Ç°±¾µØÊ±¼ä£¬
-// ¾­¹ýÊ±Çø×ª»»µÄÊ±¼ä
+// ï¿½Íºï¿½ï¿½ï¿½TimeMkUTCï¿½à·´ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(UTCÊ±ï¿½ï¿½)×ªï¿½ï¿½Îªï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£¬
+// ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 void TimeMkLocal(TimeLocal *time, uint32 sec);
 
-// ºÍº¯ÊýTimeMkLocalÏà·´µÄ²Ù×÷£¬½«TimeLocalÀàÐÍµÄÊ±¼äÈÕÆÚ×ª»»ÎªÃë,
-// ¼´×ª»»³É´Ó¹«Ôª1970Äê1ÔÂ1ÈÕ0Ê±0·Ö0 ÃëËãÆðÖÁ½ñµÄ UTC Ê±¼äËù¾­¹ýµÄÃëÊý
+// ï¿½Íºï¿½ï¿½ï¿½TimeMkLocalï¿½à·´ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TimeLocalï¿½ï¿½ï¿½Íµï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½,
+// ï¿½ï¿½×ªï¿½ï¿½ï¿½É´Ó¹ï¿½Ôª1970ï¿½ï¿½1ï¿½ï¿½1ï¿½ï¿½0Ê±0ï¿½ï¿½0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UTC Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 long TimeMkUTC(TimeLocal time);
 
 // Returns a future timestamp, 'elapsed' milliseconds from now.
