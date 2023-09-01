@@ -238,7 +238,7 @@ int CachedService::AsyncSaveFile(CachedStanza::Ptr stanza) {
   }
   // SD卡未插入时禁止打开卡上的文件，避免卸载卡失败
   //#ifdef MULTI_PART_STORAGE
-  //  if (stanza->path().find(PATH_NAME_CARD) != vzstd::string::npos) {
+  //  if (stanza->path().find(PATH_NAME_CARD) != std::string::npos) {
   //    if (!CheckSDCardStatus(NULL)) {
   //      DLOG_ERROR(MOD_EB, "SD Card not pluged, failed to save file %s",
   //                 stanza->path().c_str());
@@ -517,11 +517,11 @@ void CachedService::MakeDirRecursive(const char *pPath) {
 
 // 删除文件夹中文件，包括子文件夹
 // folder_path文件夹路径
-bool CachedService::RemoveFolderFiles(vzstd::string folder_path) {
+bool CachedService::RemoveFolderFiles(std::string folder_path) {
 #ifdef WIN32
   char temp_path[MAX_PATH_SIZE] = {0};
   WIN32_FIND_DATA file_data;
-  vzstd::string file_name;
+  std::string file_name;
   DWORD64 file_size = 0;
 
   file_name = folder_path;
@@ -551,7 +551,7 @@ bool CachedService::RemoveFolderFiles(vzstd::string folder_path) {
       file_size += RemoveFolderFiles(temp_path);
     } else {
       ::DeleteFile(
-        vzstd::string(folder_path + "\\" + file_data.cFileName).c_str());
+        std::string(folder_path + "\\" + file_data.cFileName).c_str());
     }
   } while (::FindNextFile(hLisFile, &file_data));
 
@@ -602,11 +602,11 @@ bool CachedService::RemoveFolderFiles(vzstd::string folder_path) {
 
 // 获取文件夹中文件大小，包括子文件夹
 // folder_path文件夹路径
-uint64 CachedService::GetFolderSize(vzstd::string folder_path) {
+uint64 CachedService::GetFolderSize(std::string folder_path) {
 #ifdef WIN32
   char temp_path[MAX_PATH_SIZE] = {0};
   WIN32_FIND_DATA file_data;
-  vzstd::string file_name;
+  std::string file_name;
   DWORD64 file_size = 0;
 
   file_name = folder_path;
@@ -729,7 +729,7 @@ bool CachedService::InitFileLimitCheck() {
   do {
     // Read the file data
     char temp[128];
-    vzstd::string data;
+    std::string data;
     while (true) {
       std::size_t read_size = fread(temp, sizeof(char), 128, fp);
       if (read_size) {
@@ -868,7 +868,7 @@ bool CachedService::AddFile(CachedStanza::Ptr stanza, bool is_cached) {
   return true;
 }
 
-bool CachedService::SaveFile(const vzstd::string file_name,
+bool CachedService::SaveFile(const std::string file_name,
                              MemBuffer::Ptr data) {
   vzes::CritScope cr(&crit_);
   RemoveOutOfDataStanza(false);
@@ -885,8 +885,8 @@ bool CachedService::SaveFile(const vzstd::string file_name,
   }
 }
 
-bool CachedService::SaveFile(const vzstd::string file_name, MemBuffer::Ptr data,
-                             vzstd::string &abs_path_name) {
+bool CachedService::SaveFile(const std::string file_name, MemBuffer::Ptr data,
+                             std::string &abs_path_name) {
   // char path[MAX_PATH_SIZE] = {0};
   // GenFilePath(file_name.c_str(), path);
   // abs_path_name = path;
@@ -914,7 +914,7 @@ void CachedService::ReplaceCachedFile(CachedStanza::Ptr stanza) {
              CachedStanza::stanza_count);
 }
 
-bool CachedService::RemoveFile(const vzstd::string path) {
+bool CachedService::RemoveFile(const std::string path) {
   vzes::CritScope cr(&crit_);
   for (std::deque<CachedStanza::Ptr>::iterator iter = cached_stanzas_.begin();
        iter != cached_stanzas_.end(); ++iter) {
@@ -929,11 +929,11 @@ bool CachedService::RemoveFile(const vzstd::string path) {
   return true;
 }
 
-void CachedService::OnAsyncRemoveFile(vzstd::string path) {
+void CachedService::OnAsyncRemoveFile(std::string path) {
   remove(path.c_str());
 }
 
-MemBuffer::Ptr CachedService::GetFile(const vzstd::string path) {
+MemBuffer::Ptr CachedService::GetFile(const std::string path) {
   vzes::CritScope cr(&crit_);
   for (std::deque<CachedStanza::Ptr>::iterator iter = cached_stanzas_.begin();
        iter != cached_stanzas_.end(); ++iter) {
@@ -1007,7 +1007,7 @@ void CachedService::DumpCacheInfo() {
   printf("> total %d stanzas, %d membuffer blocks\n", index, size);
 }
 
-bool CachedService::ReadFile(const vzstd::string path,
+bool CachedService::ReadFile(const std::string path,
                              MemBuffer::Ptr data_buffer) {
   if (NULL == data_buffer.get()) {
     DLOG_ERROR(MOD_EB, "Invalid data buffer");
@@ -1019,7 +1019,7 @@ bool CachedService::ReadFile(const vzstd::string path,
   int read_size = 0;
 //#ifdef MULTI_PART_STORAGE
 //  // SD卡未插入时禁止打开卡上的文件，避免卸载卡失败
-//  if (path.find(PATH_NAME_CARD) != vzstd::string::npos) {
+//  if (path.find(PATH_NAME_CARD) != std::string::npos) {
 //    if (!CheckSDCardStatus(NULL)) {
 //      DLOG_ERROR(MOD_EB, "SD Card not pluged, can not read file %s",
 //                 path.c_str());

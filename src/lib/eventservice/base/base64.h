@@ -65,14 +65,14 @@ class Base64 {
   // Encodes the specified Membuffer Blocks data.
   // result:destination buffer
   // offset:destination buffer offset
-  static void EncodeFromArray(MemBuffer::Ptr data, vzstd::string* result,
+  static void EncodeFromArray(MemBuffer::Ptr data, std::string* result,
                               size_t offset);
 
   // Encodes the specified Membuffer Blocks data.
   // start_block:start block index
   // end_block:end block index
   static void EncodeFromArray(MemBuffer::Ptr data, size_t start_block,
-                              size_t end_block, vzstd::string* result);
+                              size_t end_block, std::string* result);
 
   // Return the result data length if success, else return -1.
   static int EncodeFromArray(const unsigned char* data, size_t len,
@@ -80,28 +80,28 @@ class Base64 {
   static void EncodeFromArray(const void* data, size_t len,
                               MemBuffer::Ptr result);
   static void EncodeFromArray(const void* data, size_t len,
-                              vzstd::string* result);
+                              std::string* result);
   static bool DecodeFromArray(const char* data, size_t len, DecodeFlags flags,
-                              vzstd::string* result, size_t* data_used);
+                              std::string* result, size_t* data_used);
   static bool DecodeFromArray(const char* data, size_t len, DecodeFlags flags,
                               std::vector<char>* result, size_t* data_used);
 
   // Convenience Methods
-  static inline vzstd::string Encode(const vzstd::string& data) {
-    vzstd::string result;
+  static inline std::string Encode(const std::string& data) {
+    std::string result;
     EncodeFromArray(data.data(), data.size(), &result);
     return result;
   }
-  static inline vzstd::string Decode(const vzstd::string& data, DecodeFlags flags) {
-    vzstd::string result;
+  static inline std::string Decode(const std::string& data, DecodeFlags flags) {
+    std::string result;
     DecodeFromArray(data.data(), data.size(), flags, &result, NULL);
     return result;
   }
-  static inline bool Decode(const vzstd::string& data, DecodeFlags flags,
-                            vzstd::string* result, size_t* data_used) {
+  static inline bool Decode(const std::string& data, DecodeFlags flags,
+                            std::string* result, size_t* data_used) {
     return DecodeFromArray(data.data(), data.size(), flags, result, data_used);
   }
-  static inline bool Decode(const vzstd::string& data, DecodeFlags flags,
+  static inline bool Decode(const std::string& data, DecodeFlags flags,
                             std::vector<char>* result, size_t* data_used) {
     return DecodeFromArray(data.data(), data.size(), flags, result, data_used);
   }

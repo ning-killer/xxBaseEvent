@@ -187,7 +187,7 @@ void ByteBuffer::WriteUInt64(uint64 val) {
   WriteBytes(reinterpret_cast<const char*>(&v), 8);
 }
 
-void ByteBuffer::WriteString(const vzstd::string& val) {
+void ByteBuffer::WriteString(const std::string& val) {
   WriteBytes(val.c_str(), val.size());
 }
 

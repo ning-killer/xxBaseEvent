@@ -52,7 +52,7 @@ class CachedStanza : public vzes::noncopyable,
   CachedStanza();
   virtual ~CachedStanza();
 
-  vzstd::string &path() {
+  std::string &path() {
     return path_;
   }
 
@@ -80,7 +80,7 @@ class CachedStanza : public vzes::noncopyable,
 
   static uint32 stanza_count;
  private:
-  vzstd::string path_;
+  std::string path_;
   MemBuffer::Ptr cache_data_;
   bool is_saved_;
 

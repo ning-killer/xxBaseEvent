@@ -54,8 +54,8 @@ struct CacheData : public vzes::MessageData {
     buffer.reset();
     g_cache_data_count--;
   }
-  vzstd::string   path;      // file name
-  vzstd::string   out_path; // file full directory
+  std::string   path;      // file name
+  std::string   out_path; // file full directory
   bool            absolute_path;
   MemBuffer::Ptr  buffer;    // file content buffer for read\write operations
   int             res;       // 响应结果
@@ -70,7 +70,7 @@ struct KvdbData : public vzes::MessageData {
   typedef boost::shared_ptr<KvdbData> Ptr;
   std::string       name;   // KvdbClient name
   std::string       key;    // key
-  vzstd::string     value;  // value
+  std::string     value;  // value
   int               res;    // 响应结果
 };
 
@@ -112,8 +112,6 @@ class CacheServer : public boost::noncopyable,
   void OnReadEvent(CacheData::Ptr cache_data);
   void OnDeleteEvent(CacheData::Ptr cache_data);
 
-  //
-  KvdbService *GetKvdb(vzstd::string &name);
   KvdbService *GetKvdb(std::string &name);
  private:
   CacheServer();

@@ -47,7 +47,7 @@ const SocketAddress AsyncPacketSocket::remote_addr() {
 }
 
 
-vzstd::string AsyncPacketSocket::ip_addr() {
+std::string AsyncPacketSocket::ip_addr() {
   BOOST_ASSERT(async_socket_);
   return async_socket_->GetRemoteAddress().HostAsURIString();
 }

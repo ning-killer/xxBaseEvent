@@ -31,7 +31,7 @@ namespace app {
 
 #define MSG_ID_FEED_WATCHDOG    0x8FFFFFFF
 
-AppWatchdog::AppWatchdog(const vzstd::string name, uint32 timeout,
+AppWatchdog::AppWatchdog(const std::string name, uint32 timeout,
                          uint32 feed_time)
   : app_name_(name),
     timeout_(timeout),

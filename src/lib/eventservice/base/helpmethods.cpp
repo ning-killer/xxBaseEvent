@@ -41,7 +41,7 @@
 
 namespace vzes {
 
-const vzstd::string HelpMethods::GetCurrentUTCTime() {
+const std::string HelpMethods::GetCurrentUTCTime() {
   // temp buffer
   static const int MAX_UTC_TIME_STR_SIZE = 32;
   char temp_buf[MAX_UTC_TIME_STR_SIZE];
@@ -65,13 +65,13 @@ const vzstd::string HelpMethods::GetCurrentUTCTime() {
   return temp_buf;
 }
 
-const vzstd::string HelpMethods::GetSignatureNonce() {
-  vzstd::string signature;
+const std::string HelpMethods::GetSignatureNonce() {
+  std::string signature;
   Uint64ToString(time(NULL), signature);
   return signature + GetRandNumString(4);
 }
 
-void HelpMethods::Uint64ToString(uint64 n, vzstd::string &str) {
+void HelpMethods::Uint64ToString(uint64 n, std::string &str) {
   if (n == 0) {
     str.push_back('0');
     return;
@@ -82,9 +82,9 @@ void HelpMethods::Uint64ToString(uint64 n, vzstd::string &str) {
   }
 }
 
-const vzstd::string HelpMethods::GetRandNumString(int size) {
+const std::string HelpMethods::GetRandNumString(int size) {
   static const int MAX_NUM_SET_SIZE = 10;
-  vzstd::string res_str;
+  std::string res_str;
   // Setting the random seed
   srand((unsigned int)TimeNanos());
   for (int i = 0; i < size; i++) {
@@ -125,8 +125,8 @@ static bool IsAlNum(char c) {
          || (c == '~');
 }
 
-const vzstd::string HelpMethods::URLEncode(const vzstd::string &str) {
-  vzstd::string res;
+const std::string HelpMethods::URLEncode(const std::string &str) {
+  std::string res;
   const char *pdata = str.c_str();
   std::size_t str_size = str.size();
   for (std::size_t i = 0; i < str_size; i++) {
@@ -146,7 +146,7 @@ const vzstd::string HelpMethods::URLEncode(const vzstd::string &str) {
   return res;
 }
 
-const vzstd::string HelpMethods::HttpMethodToStr(HttpMethod hm) {
+const std::string HelpMethods::HttpMethodToStr(HttpMethod hm) {
   static const char HTTP_GET_STR[] = "GET";
   static const char HTTP_POST_STR[] = "POST";
   switch (hm) {
@@ -225,9 +225,9 @@ void HelpMethods::HmacSha1(const uint8 *key, std::size_t key_size,
   SHA1Final(&outer, (unsigned char *)result);
 }
 
-void HelpMethods::HmacSha1ToBase64(const vzstd::string &key,
-                                   const vzstd::string &data,
-                                   vzstd::string &result) {
+void HelpMethods::HmacSha1ToBase64(const std::string &key,
+                                   const std::string &data,
+                                   std::string &result) {
   unsigned char digest_buffer[SHA1_DIGEST_SIZE];
   HmacSha1((const unsigned char *)key.c_str(), key.size(),
            (const unsigned char *)data.c_str(), data.size(), digest_buffer);
@@ -235,17 +235,17 @@ void HelpMethods::HmacSha1ToBase64(const vzstd::string &key,
   Base64::EncodeFromArray(digest_buffer, SHA1_DIGEST_SIZE, &result);
 }
 
-vzstd::string HelpMethods::IntToStr(int n) {
+std::string HelpMethods::IntToStr(int n) {
   std::stringstream ss;
   ss << n;
-  return vzstd::string(
+  return std::string(
     ss.str().c_str(), ss.str().size());
 }
 
 const int MAX_RANDOM_KEY_SIZE = 62;
 const char RANDOM_KEY[] = "abcdefghijkrmnopqlstuvwxyzABCDEFGHIJKRMNOPQLSTUVWXYZ0123456789";
-vzstd::string HelpMethods::GetRandomString(std::size_t size) {
-  vzstd::string result;
+std::string HelpMethods::GetRandomString(std::size_t size) {
+  std::string result;
   for (std::size_t i = 0; i < size; i++) {
     result.push_back(RANDOM_KEY[rand() % MAX_RANDOM_KEY_SIZE]);
   }

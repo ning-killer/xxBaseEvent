@@ -52,7 +52,7 @@ class KvdbClientImpl : public KvdbClient,
   }
 
   bool SetKey(const std::string key, const char *value, uint32 value_size) {
-    // ²»ÐèÒª¼ÓËø£¬¸÷²ã±£Ö¤¸÷×ÔÖ§³Ö¶àÏß³Ì:client, server, service
+    // ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã±£Ö¤ï¿½ï¿½ï¿½ï¿½Ö§ï¿½Ö¶ï¿½ï¿½ß³ï¿½:client, server, service
     //vzes::CritScope cr(&crit_);
     KvdbData::Ptr kvdb_data(new KvdbData);
     kvdb_data->name = name_;
@@ -67,12 +67,12 @@ class KvdbClientImpl : public KvdbClient,
     return KVDB_SUCCEED;
   }
 
-  bool GetKey(const char *key, uint8 key_size, vzstd::string *result) {
+  bool GetKey(const char *key, uint8 key_size, std::string *result) {
     std::string skey(key, key_size);
     return GetKey(skey, result);
   }
 
-  bool GetKey(const std::string key, vzstd::string *result)  {
+  bool GetKey(const std::string key, std::string *result)  {
     //vzes::CritScope cr(&crit_);
     KvdbData::Ptr kvdb_data(new KvdbData);
     kvdb_data->name = name_;
@@ -88,7 +88,7 @@ class KvdbClientImpl : public KvdbClient,
   }
 
   bool GetKey(const std::string key, void *buffer, std::size_t buffer_size) {
-    vzstd::string result;
+    std::string result;
     bool res = GetKey(key, &result);
     if (res != KVDB_SUCCEED) {
       return res;

@@ -250,7 +250,7 @@ int DiskHelper::FormatSDCardPartition(uint32 part_id) {
   return -1;
 }
 
-int DiskHelper::FormatSDCardPartition(vzstd::string dev_path) {
+int DiskHelper::FormatSDCardPartition(std::string dev_path) {
 #ifndef _WIN32
   int ret = -1;
   {

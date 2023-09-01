@@ -58,9 +58,9 @@ struct Block : public boost::noncopyable {
 
   size_t  WriteBytes(const char* val, size_t len);
   size_t  ReadBytes(char* val, size_t len);
-  size_t  ReadString(vzstd::string* val, size_t len);
+  size_t  ReadString(std::string* val, size_t len);
   size_t  CopyBytes(size_t pos, char* val, size_t len);
-  size_t  CopyString(size_t pos, vzstd::string* val, size_t len);
+  size_t  CopyString(size_t pos, std::string* val, size_t len);
 
   uint8   buffer[DEFAULT_BLOCK_SIZE];
   size_t  buffer_size;
@@ -123,7 +123,7 @@ class MemBuffer : public boost::noncopyable {
 
   // Appends next |len| bytes from the buffer to |val|. Returns false
   // if there is less than |len| bytes left.
-  bool CopyString(size_t pos, vzstd::string* val, size_t len);
+  bool CopyString(size_t pos, std::string* val, size_t len);
 
   // Read some bytes from the buffer, and remove the content being read.
   // Return false if there isn't enough data left for the specified byte.
@@ -136,9 +136,9 @@ class MemBuffer : public boost::noncopyable {
 
   // Appends next |len| bytes from the buffer to |val|. Returns false
   // if there is less than |len| bytes left.
-  bool ReadString(vzstd::string* val, size_t len);
+  bool ReadString(std::string* val, size_t len);
 
-  vzstd::string ToString();
+  std::string ToString();
 
   // Write value to the buffer. Resizes the buffer when it is
   // neccessary.
@@ -146,7 +146,7 @@ class MemBuffer : public boost::noncopyable {
   void WriteUInt16(uint16 val);
   void WriteUInt32(uint32 val);
   void WriteUInt64(uint64 val);
-  void WriteString(const vzstd::string& val);
+  void WriteString(const std::string& val);
   void WriteBytes(const char* val, size_t len);
  private:
   void WriteNewBytes(const char* val, size_t len);

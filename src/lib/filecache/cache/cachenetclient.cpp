@@ -128,7 +128,7 @@ class CacheNetClientImpl : public CacheClient,
   void OnSocketReadComplete(vzes::AsyncPacketSocket::Ptr async_socket,
                             MemBuffer::Ptr data, uint16 flag) {
     DLOG_DEBUG(MOD_EB, "Socket read data done");
-    vzstd::string packet = data->ToString();
+    std::string packet = data->ToString();
     if (packet.size() < sizeof(CacheNetMessage)) {
       DLOG_ERROR(MOD_EB, "Invalid Cache message length:expected:%d,find:%d",
                  sizeof(CacheNetMessage), packet.size());
@@ -178,7 +178,7 @@ class CacheNetClientImpl : public CacheClient,
     SignalNetBreakEvent(shared_from_this(), err);
   }
 
-  void OnWriteResponseMessage(const vzstd::string &packet) {
+  void OnWriteResponseMessage(const std::string &packet) {
     CacheNetMessage *msg = (CacheNetMessage *) packet.c_str();
     if (packet.length() < sizeof(CacheNetMessage) + msg->path_len) {
       DLOG_ERROR(MOD_EB,
@@ -196,7 +196,7 @@ class CacheNetClientImpl : public CacheClient,
     }
   }
 
-  void OnReadResponseMessage(const vzstd::string &packet) {
+  void OnReadResponseMessage(const std::string &packet) {
     CacheNetMessage *msg = (CacheNetMessage *) packet.c_str();
     if (packet.length() < sizeof(CacheNetMessage) + msg->data_size) {
       DLOG_ERROR(MOD_EB,
@@ -214,7 +214,7 @@ class CacheNetClientImpl : public CacheClient,
     }
   }
 
-  void OnDeleteResponseMessage(const vzstd::string &packet) {
+  void OnDeleteResponseMessage(const std::string &packet) {
     return;
   }
 

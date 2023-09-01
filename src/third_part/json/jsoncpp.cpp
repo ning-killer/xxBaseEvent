@@ -121,8 +121,8 @@ void jbig_mem_man::init() {
 #endif
 
 /// Converts a unicode code-point to UTF-8.
-static inline vzstd::string codePointToUTF8(unsigned int cp) {
-  vzstd::string result;
+static inline std::string codePointToUTF8(unsigned int cp) {
+  std::string result;
 
   // based on description from http://en.wikipedia.org/wiki/UTF-8
 
@@ -295,7 +295,7 @@ Reader::Reader(const Features &features)
 }
 
 bool
-Reader::parse(const vzstd::string &document, Value &root, bool collectComments) {
+Reader::parse(const std::string &document, Value &root, bool collectComments) {
   document_ = document;
   const char *begin = document_.c_str();
   const char *end = begin + document_.length();
@@ -308,9 +308,9 @@ Reader::parse(const vzstd::string &document, Value &root, bool collectComments) 
 //  // Those would allow streamed input from a file, if parse() were a
 //  // template function.
 //
-//  // Since vzstd::string is reference-counted, this at least does not
+//  // Since std::string is reference-counted, this at least does not
 //  // create an extra copy.
-//  vzstd::string doc;
+//  std::string doc;
 //  std::getline(sin, doc, (char)EOF);
 //  return parse(doc, root, collectComments);
 //}
@@ -364,7 +364,7 @@ bool Reader::readValue() {
   if (collectComments_ && !commentsBefore_.empty()) {
     // Remove newline characters at the end of the comments
     size_t lastNonNewline = commentsBefore_.find_last_not_of("\r\n");
-    if (lastNonNewline != vzstd::string::npos) {
+    if (lastNonNewline != std::string::npos) {
       commentsBefore_.erase(lastNonNewline + 1);
     } else {
       commentsBefore_.clear();
@@ -566,11 +566,11 @@ Reader::addComment(Location begin, Location end, CommentPlacement placement) {
   assert(collectComments_);
   if (placement == commentAfterOnSameLine) {
     assert(lastValue_ != 0);
-    lastValue_->setComment(vzstd::string(begin, end), placement);
+    lastValue_->setComment(std::string(begin, end), placement);
   } else {
     if (!commentsBefore_.empty())
       commentsBefore_ += "\n";
-    commentsBefore_ += vzstd::string(begin, end);
+    commentsBefore_ += std::string(begin, end);
   }
 }
 
@@ -615,7 +615,7 @@ bool Reader::readString() {
 
 bool Reader::readObject(Token &tokenStart) {
   Token tokenName;
-  vzstd::string name;
+  std::string name;
   currentValue() = Value(objectValue);
   currentValue().setOffsetStart(tokenStart.start_ - begin_);
   while (readToken(tokenName)) {
@@ -737,7 +737,7 @@ bool Reader::decodeNumber(Token &token, Value &decoded) {
   while (current < token.end_) {
     Char c = *current++;
     if (c < '0' || c > '9')
-      return addError("'" + vzstd::string(token.start_, token.end_) +
+      return addError("'" + std::string(token.start_, token.end_) +
                       "' is not a number.",
                       token);
     Value::UInt digit(c - '0');
@@ -796,12 +796,12 @@ bool Reader::decodeDouble(Token &token, Value &decoded) {
     buffer[length] = 0;
     count = sscanf(buffer, format, &value);
   } else {
-    vzstd::string buffer(token.start_, token.end_);
+    std::string buffer(token.start_, token.end_);
     count = sscanf(buffer.c_str(), format, &value);
   }
 
   if (count != 1)
-    return addError("'" + vzstd::string(token.start_, token.end_) +
+    return addError("'" + std::string(token.start_, token.end_) +
                     "' is not a number.",
                     token);
   decoded = value;
@@ -809,7 +809,7 @@ bool Reader::decodeDouble(Token &token, Value &decoded) {
 }
 
 bool Reader::decodeString(Token &token) {
-  vzstd::string decoded;
+  std::string decoded;
   if (!decodeString(token, decoded))
     return false;
   currentValue() = decoded;
@@ -818,7 +818,7 @@ bool Reader::decodeString(Token &token) {
   return true;
 }
 
-bool Reader::decodeString(Token &token, vzstd::string &decoded) {
+bool Reader::decodeString(Token &token, std::string &decoded) {
   decoded.reserve(token.end_ - token.start_ - 2);
   Location current = token.start_ + 1; // skip '"'
   Location end = token.end_ - 1;       // do not include '"'
@@ -930,7 +930,7 @@ bool Reader::decodeUnicodeEscapeSequence(Token &token,
 }
 
 bool
-Reader::addError(const vzstd::string &message, Token &token, Location extra) {
+Reader::addError(const std::string &message, Token &token, Location extra) {
   ErrorInfo info;
   info.token_ = token;
   info.message_ = message;
@@ -952,7 +952,7 @@ bool Reader::recoverFromError(TokenType skipUntilToken) {
   return false;
 }
 
-bool Reader::addErrorAndRecover(const vzstd::string &message,
+bool Reader::addErrorAndRecover(const std::string &message,
                                 Token &token,
                                 TokenType skipUntilToken) {
   addError(message, token);
@@ -992,7 +992,7 @@ void Reader::getLocationLineAndColumn(Location location,
   ++line;
 }
 
-vzstd::string Reader::getLocationLineAndColumn(Location location) const {
+std::string Reader::getLocationLineAndColumn(Location location) const {
   int line, column;
   getLocationLineAndColumn(location, line, column);
   char buffer[18 + 16 + 16 + 1];
@@ -1009,12 +1009,12 @@ vzstd::string Reader::getLocationLineAndColumn(Location location) const {
 }
 
 // Deprecated. Preserved for backward compatibility
-vzstd::string Reader::getFormatedErrorMessages() const {
+std::string Reader::getFormatedErrorMessages() const {
   return getFormattedErrorMessages();
 }
 
-vzstd::string Reader::getFormattedErrorMessages() const {
-  vzstd::string formattedMessage;
+std::string Reader::getFormattedErrorMessages() const {
+  std::string formattedMessage;
   for (Errors::const_iterator itError = errors_.begin();
        itError != errors_.end();
        ++itError) {
@@ -1876,7 +1876,7 @@ Value::Value(const char *beginValue, const char *endValue)
     duplicateStringValue(beginValue, (unsigned int)(endValue - beginValue));
 }
 
-Value::Value(const vzstd::string &value)
+Value::Value(const std::string &value)
   : type_(stringValue), allocated_(true)
 #ifdef JSON_VALUE_USE_INTERNAL_MAP
   ,
@@ -2138,7 +2138,7 @@ const char *Value::asCString() const {
   return value_.string_;
 }
 
-vzstd::string Value::asString() const {
+std::string Value::asString() const {
   switch (type_) {
   case nullValue:
     return "";
@@ -2565,11 +2565,11 @@ const Value &Value::operator[](const char *key) const {
 #endif
 }
 
-Value &Value::operator[](const vzstd::string &key) {
+Value &Value::operator[](const std::string &key) {
   return (*this)[key.c_str()];
 }
 
-const Value &Value::operator[](const vzstd::string &key) const {
+const Value &Value::operator[](const std::string &key) const {
   return (*this)[key.c_str()];
 }
 
@@ -2596,7 +2596,7 @@ Value Value::get(const char *key, const Value &defaultValue) const {
   return value == &null ? defaultValue : *value;
 }
 
-Value Value::get(const vzstd::string &key, const Value &defaultValue) const {
+Value Value::get(const std::string &key, const Value &defaultValue) const {
   return get(key.c_str(), defaultValue);
 }
 
@@ -2625,7 +2625,7 @@ Value Value::removeMember(const char *key) {
 #endif
 }
 
-Value Value::removeMember(const vzstd::string &key) {
+Value Value::removeMember(const std::string &key) {
   return removeMember(key.c_str());
 }
 
@@ -2664,7 +2664,7 @@ bool Value::isMember(const char *key) const {
   return value != &null;
 }
 
-bool Value::isMember(const vzstd::string &key) const {
+bool Value::isMember(const std::string &key) const {
   return isMember(key.c_str());
 }
 
@@ -2686,14 +2686,14 @@ Value::Members Value::getMemberNames() const {
   ObjectValues::const_iterator it = value_.map_->begin();
   ObjectValues::const_iterator itEnd = value_.map_->end();
   for (; it != itEnd; ++it)
-    members.push_back(vzstd::string((*it).first.c_str()));
+    members.push_back(std::string((*it).first.c_str()));
 #else
   ValueInternalMap::IteratorState it;
   ValueInternalMap::IteratorState itEnd;
   value_.map_->makeBeginIterator(it);
   value_.map_->makeEndIterator(itEnd);
   for (; !ValueInternalMap::equals(it, itEnd); ValueInternalMap::increment(it))
-    members.push_back(vzstd::string(ValueInternalMap::key(it)));
+    members.push_back(std::string(ValueInternalMap::key(it)));
 #endif
   return members;
 }
@@ -2840,7 +2840,7 @@ void Value::setComment(const char *comment, CommentPlacement placement) {
   comments_[placement].setComment(comment);
 }
 
-void Value::setComment(const vzstd::string &comment, CommentPlacement placement) {
+void Value::setComment(const std::string &comment, CommentPlacement placement) {
   setComment(comment.c_str(), placement);
 }
 
@@ -2848,7 +2848,7 @@ bool Value::hasComment(CommentPlacement placement) const {
   return comments_ != 0 && comments_[placement].comment_ != 0;
 }
 
-vzstd::string Value::getComment(CommentPlacement placement) const {
+std::string Value::getComment(CommentPlacement placement) const {
   if (hasComment(placement))
     return comments_[placement].comment_;
   return "";
@@ -2870,7 +2870,7 @@ size_t Value::getOffsetLimit() const {
   return limit_;
 }
 
-vzstd::string Value::toStyledString() const {
+std::string Value::toStyledString() const {
   StyledWriter writer;
   return writer.write(*this);
 }
@@ -3006,13 +3006,13 @@ PathArgument::PathArgument(ArrayIndex index)
 PathArgument::PathArgument(const char *key)
   : key_(key), index_(), kind_(kindKey) {}
 
-PathArgument::PathArgument(const vzstd::string &key)
+PathArgument::PathArgument(const std::string &key)
   : key_(key.c_str()), index_(), kind_(kindKey) {}
 
 // class Path
 // //////////////////////////////////////////////////////////////////
 
-Path::Path(const vzstd::string &path,
+Path::Path(const std::string &path,
            const PathArgument &a1,
            const PathArgument &a2,
            const PathArgument &a3,
@@ -3027,7 +3027,7 @@ Path::Path(const vzstd::string &path,
   makePath(path, in);
 }
 
-void Path::makePath(const vzstd::string &path, const InArgs &in) {
+void Path::makePath(const std::string &path, const InArgs &in) {
   const char *current = path.c_str();
   const char *end = current + path.length();
   InArgs::const_iterator itInArg = in.begin();
@@ -3053,12 +3053,12 @@ void Path::makePath(const vzstd::string &path, const InArgs &in) {
       const char *beginName = current;
       while (current != end && !strchr("[.", *current))
         ++current;
-      args_.push_back(vzstd::string(beginName, current));
+      args_.push_back(std::string(beginName, current));
     }
   }
 }
 
-void Path::addPathInArg(const vzstd::string & /*path*/,
+void Path::addPathInArg(const std::string & /*path*/,
                         const InArgs &in,
                         InArgs::const_iterator &itInArg,
                         PathArgument::Kind kind) {
@@ -3071,7 +3071,7 @@ void Path::addPathInArg(const vzstd::string & /*path*/,
   }
 }
 
-void Path::invalidPath(const vzstd::string & /*path*/, int /*location*/) {
+void Path::invalidPath(const std::string & /*path*/, int /*location*/) {
   // Error: invalid path.
 }
 
@@ -3186,7 +3186,7 @@ static bool containsControlCharacter(const char *str) {
   return false;
 }
 
-vzstd::string valueToString(LargestInt value) {
+std::string valueToString(LargestInt value) {
   UIntToStringBuffer buffer;
   char *current = buffer + sizeof(buffer);
   bool isNegative = value < 0;
@@ -3199,7 +3199,7 @@ vzstd::string valueToString(LargestInt value) {
   return current;
 }
 
-vzstd::string valueToString(LargestUInt value) {
+std::string valueToString(LargestUInt value) {
   UIntToStringBuffer buffer;
   char *current = buffer + sizeof(buffer);
   uintToString(value, current);
@@ -3209,17 +3209,17 @@ vzstd::string valueToString(LargestUInt value) {
 
 #if defined(JSON_HAS_INT64)
 
-vzstd::string valueToString(Int value) {
+std::string valueToString(Int value) {
   return valueToString(LargestInt(value));
 }
 
-vzstd::string valueToString(UInt value) {
+std::string valueToString(UInt value) {
   return valueToString(LargestUInt(value));
 }
 
 #endif // # if defined(JSON_HAS_INT64)
 
-vzstd::string valueToString(double value) {
+std::string valueToString(double value) {
   // Allocate a buffer that is more than large enough to store the 16 digits of
   // precision requested below.
   char buffer[32];
@@ -3256,24 +3256,24 @@ vzstd::string valueToString(double value) {
   return buffer;
 }
 
-vzstd::string valueToString(bool value) {
+std::string valueToString(bool value) {
   return value ? "true" : "false";
 }
 
 
-vzstd::string valueToQuotedString(const char *value) {
+std::string valueToQuotedString(const char *value) {
   if (value == NULL)
     return "";
   // Not sure how to handle unicode...
   if (strpbrk(value, "\"\\\b\f\n\r\t") == NULL &&
       !containsControlCharacter(value))
-    return vzstd::string("\"") + value + "\"";
+    return std::string("\"") + value + "\"";
   // We have to walk value and escape any special characters.
-  // Appending to vzstd::string is not efficient, but this should be rare.
+  // Appending to std::string is not efficient, but this should be rare.
   // (Note: forward slashes are *not* rare, but I am not escaping them.)
-  vzstd::string::size_type maxsize =
+  std::string::size_type maxsize =
     strlen(value) * 2 + 3; // allescaped+quotes+NULL
-  vzstd::string result;
+  std::string result;
   result.reserve(maxsize); // to avoid lots of mallocs
   result += "\"";
   for (const char *c = value; *c != 0; ++c) {
@@ -3341,16 +3341,16 @@ void FastWriter::dropNullPlaceholders() {
   dropNullPlaceholders_ = true;
 }
 
-vzstd::string FastWriter::write(const Value &root) {
+std::string FastWriter::write(const Value &root) {
   document_ = "";
   writeValue(root);
   document_ += "\n";
   return document_;
 }
 #ifdef __FACE__
-vzstd::string& valueToBigJsonQuotedString(const char *value) {
+std::string& valueToBigJsonQuotedString(const char *value) {
   // Not sure how to handle unicode...
-  static vzstd::string result;
+  static std::string result;
   result.resize(0);
   if (strpbrk(value, "\"\\\b\f\n\r\t") == NULL &&
       !containsControlCharacter(value)) {
@@ -3360,9 +3360,9 @@ vzstd::string& valueToBigJsonQuotedString(const char *value) {
     return result;
   }
   // We have to walk value and escape any special characters.
-  // Appending to vzstd::string is not efficient, but this should be rare.
+  // Appending to std::string is not efficient, but this should be rare.
   // (Note: forward slashes are *not* rare, but I am not escaping them.)
-  vzstd::string::size_type maxsize =
+  std::string::size_type maxsize =
     strlen(value) * 2 + 3; // allescaped+quotes+NULL
   if (result.capacity() < jbig_mem_man::REMALLOC_BUF) {
     result.reserve(jbig_mem_man::REMALLOC_BUF);
@@ -3463,7 +3463,7 @@ void FastWriter::writeBigJsonValue(const Value &value) {
     document_ += "{";
     for (Value::Members::iterator it = members.begin(); it != members.end();
          ++it) {
-      const vzstd::string &name = *it;
+      const std::string &name = *it;
       if (it != members.begin())
         document_ += ",";
       document_ += valueToBigJsonQuotedString(name.c_str());
@@ -3514,7 +3514,7 @@ void FastWriter::writeValue(const Value &value) {
     document_ += "{";
     for (Value::Members::iterator it = members.begin(); it != members.end();
          ++it) {
-      const vzstd::string &name = *it;
+      const std::string &name = *it;
       if (it != members.begin())
         document_ += ",";
       document_ += valueToQuotedString(name.c_str());
@@ -3533,7 +3533,7 @@ void FastWriter::writeValue(const Value &value) {
 StyledWriter::StyledWriter()
   : rightMargin_(74), indentSize_(3), addChildValues_() {}
 
-vzstd::string StyledWriter::write(const Value &root) {
+std::string StyledWriter::write(const Value &root) {
   document_ = "";
   addChildValues_ = false;
   indentString_ = "";
@@ -3576,7 +3576,7 @@ void StyledWriter::writeValue(const Value &value) {
       indent();
       Value::Members::iterator it = members.begin();
       for (;;) {
-        const vzstd::string &name = *it;
+        const std::string &name = *it;
         const Value &childValue = value[name];
         writeCommentBeforeValue(childValue);
         writeWithIndent(valueToQuotedString(name.c_str()));
@@ -3663,7 +3663,7 @@ bool StyledWriter::isMultineArray(const Value &value) {
   return isMultiLine;
 }
 
-void StyledWriter::pushValue(const vzstd::string &value) {
+void StyledWriter::pushValue(const std::string &value) {
   if (addChildValues_)
     childValues_.push_back(value);
   else
@@ -3681,13 +3681,13 @@ void StyledWriter::writeIndent() {
   document_ += indentString_;
 }
 
-void StyledWriter::writeWithIndent(const vzstd::string &value) {
+void StyledWriter::writeWithIndent(const std::string &value) {
   writeIndent();
   document_ += value;
 }
 
 void StyledWriter::indent() {
-  indentString_ += vzstd::string(indentSize_, ' ');
+  indentString_ += std::string(indentSize_, ' ');
 }
 
 void StyledWriter::unindent() {
@@ -3701,16 +3701,16 @@ void StyledWriter::writeCommentBeforeValue(const Value &root) {
 
   document_ += "\n";
   writeIndent();
-  vzstd::string normalizedComment = normalizeEOL(root.getComment(commentBefore));
-  //vzstd::string::const_iterator iter = normalizedComment.begin();
+  std::string normalizedComment = normalizeEOL(root.getComment(commentBefore));
+  //std::string::const_iterator iter = normalizedComment.begin();
   //while (iter != normalizedComment.end()) {
   //  document_ += *iter;
   //  if (*iter == '\n' && *(iter + 1) == '/')
   //    writeIndent();
   //  ++iter;
   //}
-  vzstd::string::size_type nCount = normalizedComment.size();
-  for (vzstd::string::size_type i=0; i < nCount; i++) {
+  std::string::size_type nCount = normalizedComment.size();
+  for (std::string::size_type i=0; i < nCount; i++) {
     document_ += normalizedComment[i];
     if (normalizedComment[i] == '\n'
         && normalizedComment[i+1] == '/')
@@ -3738,8 +3738,8 @@ bool StyledWriter::hasCommentForValue(const Value &value) {
          value.hasComment(commentAfter);
 }
 
-vzstd::string StyledWriter::normalizeEOL(const vzstd::string &text) {
-  vzstd::string normalized;
+std::string StyledWriter::normalizeEOL(const std::string &text) {
+  std::string normalized;
   normalized.reserve(text.length());
   const char *begin = text.c_str();
   const char *end = begin + text.length();
@@ -3759,7 +3759,7 @@ vzstd::string StyledWriter::normalizeEOL(const vzstd::string &text) {
 // Class StyledStreamWriter
 // //////////////////////////////////////////////////////////////////
 
-StyledStreamWriter::StyledStreamWriter(vzstd::string indentation)
+StyledStreamWriter::StyledStreamWriter(std::string indentation)
   : document_(NULL), rightMargin_(74), indentation_(indentation),
     addChildValues_() {}
 
@@ -3806,7 +3806,7 @@ void StyledStreamWriter::writeValue(const Value &value) {
       indent();
       Value::Members::iterator it = members.begin();
       for (;;) {
-        const vzstd::string &name = *it;
+        const std::string &name = *it;
         const Value &childValue = value[name];
         writeCommentBeforeValue(childValue);
         writeWithIndent(valueToQuotedString(name.c_str()));
@@ -3893,7 +3893,7 @@ bool StyledStreamWriter::isMultineArray(const Value &value) {
   return isMultiLine;
 }
 
-void StyledStreamWriter::pushValue(const vzstd::string &value) {
+void StyledStreamWriter::pushValue(const std::string &value) {
   if (addChildValues_)
     childValues_.push_back(value);
   else
@@ -3916,7 +3916,7 @@ void StyledStreamWriter::writeIndent() {
   *document_ << '\n' << indentString_;
 }
 
-void StyledStreamWriter::writeWithIndent(const vzstd::string &value) {
+void StyledStreamWriter::writeWithIndent(const std::string &value) {
   writeIndent();
   *document_ << value;
 }
@@ -3954,8 +3954,8 @@ bool StyledStreamWriter::hasCommentForValue(const Value &value) {
          value.hasComment(commentAfter);
 }
 
-vzstd::string StyledStreamWriter::normalizeEOL(const vzstd::string &text) {
-  vzstd::string normalized;
+std::string StyledStreamWriter::normalizeEOL(const std::string &text) {
+  std::string normalized;
   normalized.reserve(text.length());
   const char *begin = text.c_str();
   const char *end = begin + text.length();
@@ -3978,7 +3978,7 @@ std::ostream &operator<<(std::ostream &sout, const Value &root) {
   return sout;
 }
 
-bool String2Json(const vzstd::string& src_str, Json::Value& dst_json) {
+bool String2Json(const std::string& src_str, Json::Value& dst_json) {
   // try {
   Json::Value req_json;
   Json::Reader read_json;
@@ -3990,7 +3990,7 @@ bool String2Json(const vzstd::string& src_str, Json::Value& dst_json) {
     return true;*/
 }
 
-bool Json2String(const Json::Value& src_json, vzstd::string& dst_str) {
+bool Json2String(const Json::Value& src_json, std::string& dst_str) {
   // try {
   Json::FastWriter fw;
   dst_str.assign(fw.write(src_json));

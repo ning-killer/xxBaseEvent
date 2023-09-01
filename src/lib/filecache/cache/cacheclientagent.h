@@ -54,9 +54,9 @@ class CacheClientAgent : public boost::noncopyable,
                             vzes::MemBuffer::Ptr data, uint16 flag);
   void OnSocketErrorEvent(vzes::AsyncPacketSocket::Ptr async_socket, int err);
 
-  void onWriteMessage(const vzstd::string &packet);
-  void onReadMessage(const vzstd::string &packet);
-  void onDeleteMessage(const vzstd::string &packet);
+  void onWriteMessage(const std::string &packet);
+  void onReadMessage(const std::string &packet);
+  void onDeleteMessage(const std::string &packet);
 
  public:
   static uint8             channel_id_;

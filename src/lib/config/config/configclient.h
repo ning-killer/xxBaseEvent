@@ -52,17 +52,17 @@ struct ConfigParamNode {
   //set_by_id construct
   ConfigParamNode(const int idx,
                   const ConfigParamType tp,
-                  const vzstd::string &v) :
+                  const std::string &v) :
     index(idx), key(""), type(tp), val(v) {
   }
   //set_by_key construct
-  ConfigParamNode(const vzstd::string &k,
+  ConfigParamNode(const std::string &k,
                   const ConfigParamType tp,
-                  const vzstd::string &v) :
+                  const std::string &v) :
     index(0), key(k), type(tp), val(v) {
   }
   //get_by_key construct
-  ConfigParamNode(const vzstd::string &k,
+  ConfigParamNode(const std::string &k,
                   const ConfigParamType tp):
     index(0), key(k), type(tp) {
   }
@@ -72,9 +72,9 @@ struct ConfigParamNode {
     index(idx), key(""), type(tp) {
   }
   int index;
-  vzstd::string key;
+  std::string key;
   ConfigParamType type;
-  vzstd::string val;
+  std::string val;
 };
 
 enum CFG_MODULE_PROPERTY {
@@ -99,7 +99,7 @@ enum CFG_OPERATE_STATUS {
 #define GROUP_NAME_MAX_LEN 30
 #define FLOAT_EPS (double)(1e-9)
 
-typedef int (*PreCheckCfgValFunc)(vzstd::string groupName,
+typedef int (*PreCheckCfgValFunc)(std::string groupName,
                                   std::vector<ConfigParamNode> paras,
                                   void *userData);
 
@@ -111,79 +111,79 @@ class ConfigClient {
   CreateConfigClient();
 
   virtual int GetCfgValByName(
-    const vzstd::string &param_name,
+    const std::string &param_name,
     void *val,
     int val_len,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int GetCfgValByName(
-    const vzstd::string &param_name,
-    vzstd::string &val, const vzstd::string &module_name,
+    const std::string &param_name,
+    std::string &val, const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int GetCfgValById(
     int param_index,
     void *val,
     int val_len,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int GetCfgValById(
     int param_index,
-    vzstd::string &val,
-    const vzstd::string &module_name,
+    std::string &val,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int SetCfgValByName(
-    const vzstd::string &param_name,
+    const std::string &param_name,
     const void *val,
     int val_len,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int SetCfgValByName(
-    const vzstd::string &para_name,
-    const vzstd::string &val,
-    const vzstd::string &module_name,
+    const std::string &para_name,
+    const std::string &val,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int SetCfgValById(
     int param_index,
     const void *val,
     int val_len,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int SetCfgValById(
     int param_index,
-    const vzstd::string &val,
-    const vzstd::string &module_name,
+    const std::string &val,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int SetCfgVal(
     const std::vector<ConfigParamNode> &configs,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int SetCfgVal(
     const ConfigParamNode &config,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int GetAllCfgVal(
     std::vector<ConfigParamNode> &configs,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual int GetArrayCfgVal(
     std::vector<ConfigParamNode> &configs,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 
   virtual bool SetPreCheckValFunc(
     PreCheckCfgValFunc p_func,
-    void *p_user_data, const vzstd::string &module_name,
+    void *p_user_data, const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) = 0;
 }; //ConfigClient
 

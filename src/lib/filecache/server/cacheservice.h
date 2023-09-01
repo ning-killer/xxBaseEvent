@@ -43,7 +43,7 @@ namespace cache {
 // Filecache文件夹监控条目信息
 struct FlcStanza {
   uint32 max_size;
-  vzstd::string path;
+  std::string path;
   FlcStanza &operator=(const FlcStanza &stanza) {
     max_size = stanza.max_size;
     path     = stanza.path;
@@ -72,19 +72,19 @@ class CachedService : public vzes::noncopyable,
   // path:文件相对路径
   // data:文件数据
   // abs_path_name:输出参数，绝对路径
-  bool SaveFile(const vzstd::string file_name, MemBuffer::Ptr data,
-                vzstd::string &abs_path_name);
+  bool SaveFile(const std::string file_name, MemBuffer::Ptr data,
+                std::string &abs_path_name);
   // 存储文件
   // path:文件绝对路径，全路径+文件名
   // data:文件数据
-  bool SaveFile(const vzstd::string file_name, MemBuffer::Ptr data);
+  bool SaveFile(const std::string file_name, MemBuffer::Ptr data);
   // 读取文件
   // path:文件路径，全路径+文件名
   // return 文件数据Membuffer指针
-  MemBuffer::Ptr GetFile(const vzstd::string path);
+  MemBuffer::Ptr GetFile(const std::string path);
   // 删除文件
   // path:文件路径，全路径+文件名
-  bool RemoveFile(const vzstd::string path);
+  bool RemoveFile(const std::string path);
   // 释放当前没有被使用的缓存
   void ReleaseCache();
   void DumpCacheInfo();
@@ -94,8 +94,8 @@ class CachedService : public vzes::noncopyable,
 
  private:
   bool Start();
-  uint64 GetFolderSize(vzstd::string folder_path);
-  bool RemoveFolderFiles(vzstd::string folder_path);
+  uint64 GetFolderSize(std::string folder_path);
+  bool RemoveFolderFiles(std::string folder_path);
   void CheckFileLimit();
   bool InitFileLimitCheck();
   void StartFileLimitCheckTimer();
@@ -110,10 +110,10 @@ class CachedService : public vzes::noncopyable,
   void OnRenice();
   int  OnSaveFile(CachedStanza::Ptr stanza);
   int  AsyncSaveFile(CachedStanza::Ptr stanza);
-  void OnAsyncRemoveFile(vzstd::string path);
+  void OnAsyncRemoveFile(std::string path);
   void ReplaceCachedFile(CachedStanza::Ptr stanza);
   bool AddFile(CachedStanza::Ptr stanza, bool is_cached = true);
-  bool ReadFile(const vzstd::string path, MemBuffer::Ptr data_buffer);
+  bool ReadFile(const std::string path, MemBuffer::Ptr data_buffer);
   void MakeDirRecursive(const char *pPath);
 
   void GenFilePath(const char *name, char path[128]);

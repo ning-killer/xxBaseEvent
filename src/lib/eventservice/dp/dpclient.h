@@ -34,7 +34,7 @@
 
 namespace vzes {
 
-typedef vzstd::string DpBuffer;
+typedef std::string DpBuffer;
 
 enum {
   TYPE_INVALID = -1,            // 非法TYPE

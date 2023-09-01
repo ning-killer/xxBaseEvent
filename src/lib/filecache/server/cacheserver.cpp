@@ -340,11 +340,6 @@ bool CacheServer::KVDBGetProperty(std::string name, int &property) {
   return p->GetProperty(property);
 }
 
-cache::KvdbService *CacheServer::GetKvdb(vzstd::string &name) {
-  vzstd::string s = name.c_str();
-  return GetKvdb(s);
-}
-
 KvdbService *CacheServer::GetKvdb(std::string &name) {
   // map操作多线程互斥
   vzes::CritScope cr(&kvdb_crit_);

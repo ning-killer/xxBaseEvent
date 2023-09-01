@@ -157,7 +157,7 @@ void MemBufferReadTest2() {
   vzes::MemBuffer::Ptr mb1 = vzes::MemBuffer::CreateMemBuffer();
   vzes::MemBuffer::Ptr mb2 = vzes::MemBuffer::CreateMemBuffer();
   vzes::MemBuffer::Ptr mb3 = vzes::MemBuffer::CreateMemBuffer();
-  vzstd::string str1, str2, str3, strtmp;
+  std::string str1, str2, str3, strtmp;
   const int half = 26;
   for (int i = 0; i < 2 * half; i++) {
     const char ch = (i % 26 + 'a');

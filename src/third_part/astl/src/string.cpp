@@ -162,7 +162,7 @@ void string::Constructor(size_type n, char c) {
 }
 
 void string::DumpStringSize() {
-  printf(">> vzstd::string is used size %u.\n", mTotalSize);
+  printf(">> std::string is used size %u.\n", mTotalSize);
 }
 
 string::string() {

@@ -164,7 +164,7 @@ class TcpClient : public vzes::MessageHandler,
     // write is Async operations, so here sleep 200ms, to wait write done
     vzsleep(200);
 
-    // ¶ÁÈ¡ÎÄ¼þ
+    // ï¿½ï¿½È¡ï¿½Ä¼ï¿½
     vzes::MemBuffer::Ptr read_buffer;
     read_buffer = cache_client_->Read(full_path);
     vzes::BlocksPtr &blocks = read_buffer->blocks();
@@ -177,7 +177,7 @@ class TcpClient : public vzes::MessageHandler,
     //v_value["cmd"] = "set_tcpconn";
     //v_value["s_ip"] = "192.168.1.141";
     //v_value["s_port"] = 5544; //server
-    //v_value["s_port"] = 8097; //¹¤¾ß
+    //v_value["s_port"] = 8097; //ï¿½ï¿½ï¿½ï¿½
 
     //v_value["cmd"] = "query_face";
     //v_value["id"] = 1;
@@ -243,7 +243,7 @@ class TcpClient : public vzes::MessageHandler,
     data_head[2] = 0x00;
     data_head[3] = 0x00;
 
-    vzstd::string v_string = v_value.toStyledString();
+    std::string v_string = v_value.toStyledString();
 
     *(uint32_t *)(data_head + 8) = ntol(v_string.size());
     bool res;
@@ -280,7 +280,7 @@ class TcpClient : public vzes::MessageHandler,
     //data_head[2] = 0x00;
     //data_head[3] = 0x00;
 
-    //vzstd::string v_string = v_value.toStyledString();
+    //std::string v_string = v_value.toStyledString();
 
     //*(uint32_t *)(data_head + 8) = ntol(v_string.size());
     //bool res;
@@ -306,7 +306,7 @@ class TcpClient : public vzes::MessageHandler,
     data_head[2] = 0x00;
     data_head[3] = 0x00;
 
-    vzstd::string v_string = v_value.toStyledString();
+    std::string v_string = v_value.toStyledString();
 
     *(uint32_t *)(data_head + 8) = ntol(v_string.size());
     bool res;

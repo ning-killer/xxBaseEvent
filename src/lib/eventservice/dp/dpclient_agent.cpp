@@ -94,7 +94,7 @@ void DpClientAgent::OnSocketWriteComplete(
 
 void DpClientAgent::OnSocketReadComplete(
   AsyncPacketSocket::Ptr async_socket, MemBuffer::Ptr data, uint16 flag) {
-  vzstd::string packet = data->ToString();
+  std::string packet = data->ToString();
   if (packet.size() <= sizeof(DpNetMsgHeader)) {
     DLOG_ERROR(MOD_EB, "Invalid Dp message length:%d", packet.size());
     return;

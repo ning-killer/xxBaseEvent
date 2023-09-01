@@ -43,7 +43,7 @@ class AppWatchdog : public vzes::MessageHandler {
   // name: 看门狗模块名称
   // timeout: 超时时间，单位秒
   // feed_time: 定时喂狗时间，单位秒
-  AppWatchdog(const vzstd::string name, uint32 timeout = WDG_DEF_TIMEOUT,
+  AppWatchdog(const std::string name, uint32 timeout = WDG_DEF_TIMEOUT,
               uint32 feed_time = WDG_DEF_FEEDDOG_TIME);
   ~AppWatchdog();
 
@@ -56,7 +56,7 @@ class AppWatchdog : public vzes::MessageHandler {
 
  private:
   vzes::EventService::Ptr event_service_;
-  vzstd::string           app_name_;
+  std::string           app_name_;
   uint32                  timeout_;
   uint32                  feed_time_;
   int                     watchdog_key_;

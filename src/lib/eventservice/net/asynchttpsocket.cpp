@@ -189,7 +189,7 @@ bool AsyncHttpSocket::StartReadNextPacket() {
 }
 
 bool AsyncHttpSocket::AnalisysPacket(MemBuffer::Ptr buffer) {
-  vzstd::string packet = buffer->ToString();
+  std::string packet = buffer->ToString();
   int res = http_parser_execute(&http_parser_,
                                 &http_settings_,
                                 packet.c_str(),

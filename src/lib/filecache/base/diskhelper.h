@@ -35,11 +35,11 @@
 
 namespace vzes {
 
-// ´æ´¢Éè±¸·ÖÇøÊýÁ¿¡¢¹ÒÔØÂ·¾¶¶¨Òå
+// ï¿½æ´¢ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #ifdef MULTI_PART_STORAGE
 #define SD_CARD_PART_NUM        (2)
 #ifdef LITEOS
-// LiteosÏµÍ³¹ÒÔØµ½Í¬Ò»¸öÄ¿Â¼ÏÂ¸ÅÂÊÒì³£
+// LiteosÏµÍ³ï¿½ï¿½ï¿½Øµï¿½Í¬Ò»ï¿½ï¿½Ä¿Â¼ï¿½Â¸ï¿½ï¿½ï¿½ï¿½ì³£
 #define FLASH_PART_PATH_HEAD    "/media_nand%d"
 #define CARD_PART_PATH_HEAD     "/media_card%d"
 #else
@@ -69,7 +69,7 @@ class DiskHelper : public MessageHandler,
  public:
   typedef boost::shared_ptr<DiskHelper> Ptr;
 
-  // ´´½¨DiskHelperÊµÀý£¬¸ÃÀàÎªµ¥ÊµÀýÀà£¬Ó¦ÓÃÓ¦Í¨¹ý¸Ã½Ó¿Ú»ñÈ¡ÀàÊµÀý
+  // ï¿½ï¿½ï¿½ï¿½DiskHelperÊµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Êµï¿½ï¿½ï¿½à£¬Ó¦ï¿½ï¿½Ó¦Í¨ï¿½ï¿½ï¿½Ã½Ó¿Ú»ï¿½È¡ï¿½ï¿½Êµï¿½ï¿½
   static DiskHelper* Instance(EventService::Ptr es = EventService::Ptr());
   DiskHelper(EventService::Ptr es);
   virtual ~DiskHelper();
@@ -79,70 +79,70 @@ class DiskHelper : public MessageHandler,
   unsigned int SD_PART_NUM();
 
 // #if !defined(WIN32) && !defined(UBUNTU64)
-  // ¹ÒÔØSD¿¨£¬Í¬²½¹ÒÔØ£»Èç¹ûÎ´·ÖÇøÔòÏÈ·ÖÇøºó£¬Òì²½¹ÒÔØ¡£
-  // return ³É¹¦:0; Ê§°Ü:-1
+  // ï¿½ï¿½ï¿½ï¿½SDï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì²½ï¿½ï¿½ï¿½Ø¡ï¿½
+  // return ï¿½É¹ï¿½:0; Ê§ï¿½ï¿½:-1
   int  MountSDCard(void);
 
-  // Ð¶ÔØSD¿¨
-  // return ³É¹¦:0; Ê§°Ü:-1
+  // Ð¶ï¿½ï¿½SDï¿½ï¿½
+  // return ï¿½É¹ï¿½:0; Ê§ï¿½ï¿½:-1
   int UnMountSDCard(uint32 part_id);
 
-  // ¶ÁÈ¡SD Cardµ±Ç°¹ÒÔØ×´Ì¬£¬Èç¹ûµ±Ç°Î´¹ÒÔØ£¬»á´¥·¢Òì²½¹ÒÔØÇëÇó
-  // return µ±Ç°SD¿¨µÄ¹ÒÔØ×´Ì¬£¬ÒÑ¹ÒÔØ: true
+  // ï¿½ï¿½È¡SD Cardï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Î´ï¿½ï¿½ï¿½Ø£ï¿½ï¿½á´¥ï¿½ï¿½ï¿½ì²½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  // return ï¿½ï¿½Ç°SDï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½: true
   bool IsSDCardMounted(void);
 
-  // ¸ñÊ½»¯SD¿¨£¬Ö¸¶¨µÄ·ÖÇø
-  // part_id: ·ÖÇøË÷Òý£¬[0, SD_CARD_PART_NUM-1]
-  // return ³É¹¦:0; Ê§°Ü:-1
+  // ï¿½ï¿½Ê½ï¿½ï¿½SDï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
+  // part_id: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[0, SD_CARD_PART_NUM-1]
+  // return ï¿½É¹ï¿½:0; Ê§ï¿½ï¿½:-1
   int  FormatSDCardPartition(uint32 part_id);
-  int  FormatSDCardPartition(vzstd::string dev_path);
+  int  FormatSDCardPartition(std::string dev_path);
 
-  // SD¿¨·ÖÇø
-  // return ³É¹¦:0; Ê§°Ü:-1
+  // SDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  // return ï¿½É¹ï¿½:0; Ê§ï¿½ï¿½:-1
   int SplitPartSDCard(void);
 
-  // ¸ñÊ½»¯flash£¬Ö¸¶¨µÄ·ÖÇø
-  // part_id: ·ÖÇøË÷Òý£¬[0, SD_CARD_PART_NUM-1]
-  // return ³É¹¦:0; Ê§°Ü:-1
+  // ï¿½ï¿½Ê½ï¿½ï¿½flashï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
+  // part_id: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[0, SD_CARD_PART_NUM-1]
+  // return ï¿½É¹ï¿½:0; Ê§ï¿½ï¿½:-1
   int FormatFlashPartition(uint32 part_id);
 
-  // ¸ñÊ½»¯flash£¬ËùÓÐµÄ·ÖÇø
-  // return ³É¹¦:0; Ê§°Ü:-1
+  // ï¿½ï¿½Ê½ï¿½ï¿½flashï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄ·ï¿½ï¿½ï¿½
+  // return ï¿½É¹ï¿½:0; Ê§ï¿½ï¿½:-1
   int  FormatFlash(void);
 
-  // ¶ÁÈ¡Flash·ÖÇø´óÐ¡,Ö¸¶¨µÄ·ÖÇø
-  // part_id: ·ÖÇøË÷Òý£¬[0, SD_CARD_PART_NUM-1]
-  // info: ·ÖÇøÐÅÏ¢£¬µ¥Î»MB£¬ÓÃ»§×Ô¼º¹ÜÀíÄÚ´æ
-  // return ³É¹¦:0; Ê§°Ü:-1
+  // ï¿½ï¿½È¡Flashï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡,Ö¸ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
+  // part_id: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[0, SD_CARD_PART_NUM-1]
+  // info: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Î»MBï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+  // return ï¿½É¹ï¿½:0; Ê§ï¿½ï¿½:-1
   int GetFlashPartSize(uint32 part_id, PartitionInfo *info);
 
-  // ¶ÁÈ¡Flash Free¿Õ¼ä×î´óµÄ·ÖÇøÐÅÏ¢
-  // info: ·ÖÇøÐÅÏ¢£¬µ¥Î»MB£¬ÓÃ»§×Ô¼º¹ÜÀíÄÚ´æ
-  // return ³É¹¦:>=0,·ÖÇøindex£¬[0, SD_CARD_PART_NUM-1]; Ê§°Ü:-1
+  // ï¿½ï¿½È¡Flash Freeï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+  // info: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Î»MBï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+  // return ï¿½É¹ï¿½:>=0,ï¿½ï¿½ï¿½ï¿½indexï¿½ï¿½[0, SD_CARD_PART_NUM-1]; Ê§ï¿½ï¿½:-1
   int GetFlashMaxPartSize(PartitionInfo *info);
   unsigned int GetFlashCurPart(uint32 size_limit, PartitionInfo *cur_part);
 
-  // ¶ÁÈ¡SD¿¨·ÖÇø´óÐ¡,Ö¸¶¨µÄ·ÖÇø
-  // part_id: ·ÖÇøË÷Òý£¬[0, SD_CARD_PART_NUM-1]
-  // info: ·ÖÇøÐÅÏ¢£¬µ¥Î»MB£¬ÓÃ»§×Ô¼º¹ÜÀíÄÚ´æ
-  // return ³É¹¦:0; Ê§°Ü:-1
+  // ï¿½ï¿½È¡SDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡,Ö¸ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
+  // part_id: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[0, SD_CARD_PART_NUM-1]
+  // info: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Î»MBï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+  // return ï¿½É¹ï¿½:0; Ê§ï¿½ï¿½:-1
   int GetSDCardPartSize(uint32 part_id, PartitionInfo *info);
 
-  // ¶ÁÈ¡SD¿¨Free¿Õ¼ä×î´óµÄ·ÖÇøÐÅÏ¢
-  // info: ·ÖÇøÐÅÏ¢£¬µ¥Î»MB£¬ÓÃ»§×Ô¼º¹ÜÀíÄÚ´æ
-  // return ³É¹¦:>=0,·ÖÇøindex£¬[0, SD_CARD_PART_NUM-1]; Ê§°Ü:-1
+  // ï¿½ï¿½È¡SDï¿½ï¿½Freeï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+  // info: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Î»MBï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+  // return ï¿½É¹ï¿½:>=0,ï¿½ï¿½ï¿½ï¿½indexï¿½ï¿½[0, SD_CARD_PART_NUM-1]; Ê§ï¿½ï¿½:-1
   int GetSDCardMaxPartSize(PartitionInfo *info);
 
   unsigned int GetSDCardCurPart(uint32 size_limit,
                                 PartitionInfo *cur_part);
 
-  // ÉèÖÃÒì³£×´Ì¬
-  // err_card:ÊÇ·ñÎª´í¿¨
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ì³£×´Ì¬
+  // err_card:ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½
   void InformError(bool is_sd, uint32 idx, bool is_err);
 
-  // ¶ÁÈ¡¿éÉè±¸ÐÅÏ¢
-  // dev_info: [OUT]Éè±¸ÐÅÏ¢
-  // return ³É¹¦:0; Ê§°Ü:-1
+  // ï¿½ï¿½È¡ï¿½ï¿½ï¿½è±¸ï¿½ï¿½Ï¢
+  // dev_info: [OUT]ï¿½è±¸ï¿½ï¿½Ï¢
+  // return ï¿½É¹ï¿½:0; Ê§ï¿½ï¿½:-1
   int GetBlockDeviceInfo(VzBlockDeviceInfo *dev_info);
 
   // return: true or false

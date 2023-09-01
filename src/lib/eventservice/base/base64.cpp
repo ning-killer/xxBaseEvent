@@ -142,7 +142,7 @@ int Base64::EncodeFromArray(const unsigned char* data, size_t len,
   return ((len + 2) / 3) * 4;
 }
 
-void Base64::EncodeFromArray(MemBuffer::Ptr data, vzstd::string* result,
+void Base64::EncodeFromArray(MemBuffer::Ptr data, std::string* result,
                              size_t offset) {
   size_t nData = data->size();
   result->resize(offset + (((nData + 2) / 3) * 4));
@@ -188,10 +188,10 @@ void Base64::EncodeFromArray(MemBuffer::Ptr data, vzstd::string* result,
 }
 
 void Base64::EncodeFromArray(MemBuffer::Ptr data, size_t start_block,
-                             size_t end_block, vzstd::string* result) {
+                             size_t end_block, std::string* result) {
   ASSERT(NULL != result);
   result->clear();
-  // °´ÕÕ×î´ó³¤¶ÈÔ¤·ÖÅäÄÚ´æ.
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó³¤¶ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½.
   uint32 blocks_len = (end_block - start_block + 1) * DEFAULT_BLOCK_SIZE;
   result->resize(((blocks_len + 2) / 3) * 4);
 
@@ -241,8 +241,8 @@ void Base64::EncodeFromArray(MemBuffer::Ptr data, size_t start_block,
     }
   }
 
-  // °´ÕÕÊµ¼ÊµÄÊý¾Ý³¤¶Èµ÷Õûsize,
-  // ¼õÐ¡size²»»áµ¼ÖÂstring reallocÄÚ´æ.
+  // ï¿½ï¿½ï¿½ï¿½Êµï¿½Êµï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½Èµï¿½ï¿½ï¿½size,
+  // ï¿½ï¿½Ð¡sizeï¿½ï¿½ï¿½áµ¼ï¿½ï¿½string reallocï¿½Ú´ï¿½.
   result->resize(((src_total_size + 2) / 3) * 4);
 }
 
@@ -298,7 +298,7 @@ void Base64::EncodeFromArray(const void* data, size_t len,
 }
 
 void Base64::EncodeFromArray(const void* data, size_t len,
-                             vzstd::string* result) {
+                             std::string* result) {
   ASSERT(NULL != result);
   int buf_size = ((len + 2) / 3) * 4;
   result->clear();
@@ -363,8 +363,8 @@ size_t Base64::GetNextQuantum(DecodeFlags parse_flags, bool illegal_pads,
 }
 
 bool Base64::DecodeFromArray(const char* data, size_t len, DecodeFlags flags,
-                             vzstd::string* result, size_t* data_used) {
-  return DecodeFromArrayTemplate<vzstd::string>(
+                             std::string* result, size_t* data_used) {
+  return DecodeFromArrayTemplate<std::string>(
            data, len, flags, result, data_used);
 }
 

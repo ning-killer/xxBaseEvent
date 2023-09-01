@@ -100,7 +100,7 @@ class IPAddress {
   size_t Size() const;
 
   // Wraps inet_ntop.
-  vzstd::string ToString() const;
+  std::string ToString() const;
 
   // Returns an unmapped address from a possibly-mapped address.
   // Returns the same address if this isn't a mapped address.
@@ -122,7 +122,7 @@ class IPAddress {
 };
 
 bool IPFromAddrInfo(struct addrinfo* info, IPAddress* out);
-bool IPFromString(const vzstd::string& str, IPAddress* out);
+bool IPFromString(const std::string& str, IPAddress* out);
 bool IPIsAny(const IPAddress& ip);
 bool IPIsLoopback(const IPAddress& ip);
 bool IPIsPrivate(const IPAddress& ip);

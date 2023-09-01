@@ -72,9 +72,9 @@ Purschke <purschke@bnl.gov>.
 
 //检测编码是否符合UTF8规则，可以用于检测是否是UTF8字符串。纯英文字符串一定返回True。
 //注意：GB2312/GBK字符串也有小概率符合UTF8编码规则，调此接口小概率返回True。
-bool IsUtf8String(vzstd::string str);
-bool Gb2312ToUtf8(vzstd::string &outStr, const vzstd::string inputStr);
-bool Utf8ToGb2312(vzstd::string &outStr, const vzstd::string inputStr);
+bool IsUtf8String(std::string str);
+bool Gb2312ToUtf8(std::string &outStr, const std::string inputStr);
+bool Utf8ToGb2312(std::string &outStr, const std::string inputStr);
 #ifdef __cplusplus
 extern "C" {
 #endif

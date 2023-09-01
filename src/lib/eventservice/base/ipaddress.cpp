@@ -146,9 +146,9 @@ in_addr IPAddress::ipv4_address() const {
   return u_.ip4;
 }
 
-vzstd::string IPAddress::ToString() const {
+std::string IPAddress::ToString() const {
   if (family_ != AF_INET && family_ != AF_INET6) {
-    return vzstd::string();
+    return std::string();
   }
   char buf[VZ_INET6_ADDRSTRLEN] = {0};
   const void* src = &u_.ip4;
@@ -156,9 +156,9 @@ vzstd::string IPAddress::ToString() const {
     src = &u_.ip6;
   }
   if (!vzes::inet_ntop(family_, src, buf, sizeof(buf))) {
-    return vzstd::string();
+    return std::string();
   }
-  return vzstd::string(buf);
+  return std::string(buf);
 }
 
 IPAddress IPAddress::Normalized() const {
@@ -211,7 +211,7 @@ bool IPFromAddrInfo(struct addrinfo* info, IPAddress* out) {
   return false;
 }
 
-bool IPFromString(const vzstd::string& str, IPAddress* out) {
+bool IPFromString(const std::string& str, IPAddress* out) {
   if (!out) {
     return false;
   }

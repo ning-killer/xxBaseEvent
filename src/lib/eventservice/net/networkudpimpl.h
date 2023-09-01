@@ -84,8 +84,8 @@ class MulticastAsyncUdpSocket : public AsyncUdpSocketImpl {
   };
 #endif
   struct NetworkInterface {
-    vzstd::string if_name;
-    vzstd::string if_addr;
+    std::string if_name;
+    std::string if_addr;
   };
   virtual bool AsyncRead();
   virtual bool Bind(const SocketAddress &bind_addr);
@@ -100,7 +100,7 @@ class MulticastAsyncUdpSocket : public AsyncUdpSocketImpl {
   std::vector<NetworkInterfaceState> network_interfaces_;
 #endif
  private:
-  vzstd::string                        multicast_ip_addr_;
+  std::string                        multicast_ip_addr_;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -36,10 +36,10 @@
 
 namespace cache {
 
-#define KVDB_FILE_PATH_MAXLEN    128   ///< ÎÄ¼þÈ«Â·¾¶Ãû³Æ³¤¶È
-#define KVDB_KEY_MAXLEN          64    ///< ¹Ø¼ü×Ö×Ö·ûÊýÏÞÖÆ
-#define KVDB_CACHE_MAXNUM        4     ///< »º´æ¸öÊý
-#define KVDB_CACHE_EACH_MAXCNT   1000  ///< Ã¿ÖÖ»º´æµÄ×î¶à½ÚµãÊý
+#define KVDB_FILE_PATH_MAXLEN    128   ///< ï¿½Ä¼ï¿½È«Â·ï¿½ï¿½ï¿½ï¿½ï¿½Æ³ï¿½ï¿½ï¿½
+#define KVDB_KEY_MAXLEN          64    ///< ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_CACHE_MAXNUM        4     ///< ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_CACHE_EACH_MAXCNT   1000  ///< Ã¿ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½
 
 
 #ifdef WIN32
@@ -50,138 +50,138 @@ namespace cache {
 #define MAKE_BAKFILE_NAME(X,N,Y,Z) snprintf(X, N, "%s/%s.bak", Y, Z)
 #endif
 
-/**@name    ´íÎóÀàÐÍ¶¨Òå
+/**@name    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½ï¿½ï¿½
 * @{
 */
 typedef int KvdbError;
-#define KVDB_ERR_OK              0  ///< ÕýÈ·
-#define KVDB_ERR_OPEN_FILE       1  ///< ´ò¿ªÎÄ¼þ´íÎó
-#define KVDB_ERR_WRITE_FILE      2  ///< Ð´ÎÄ¼þ´íÎó
-#define KVDB_ERR_READ_FILE       3  ///< ¶ÁÎÄ¼þ´íÎó
-#define KVDB_ERR_PARSE_FILE      4  ///< ½âÎöÎÄ¼þ´íÎó
-#define KVDB_ERR_INVALID_PARAM   5  ///< ÎÞÐ§²ÎÊý´íÎó
-#define KVDB_ERR_SEEK_NULL       6  ///< ²éÕÒ½á¹ûÎª¿Õ
-#define KVDB_ERR_FULL            7  ///< Êý¾Ý¿âÂú´íÎó
-#define KVDB_ERR_DELETE_FILE     8  ///< ÎÄ¼þÉ¾³ý´íÎó
-#define KVDB_ERR_OPEN_FOLD       9  ///< ´ò¿ªÎÄ¼þ¼Ð´íÎó
-#define KVDB_ERR_FILE_CHECK      10 ///< ÎÄ¼þÐ£Ñé´íÎó
-#define KVDB_ERR_FILE_DONTEXIST  11 ///< ÎÄ¼þ²»´æÔÚ
-#define KVDB_ERR_UNKNOWN         99 ///< Î´Öª´íÎó
+#define KVDB_ERR_OK              0  ///< ï¿½ï¿½È·
+#define KVDB_ERR_OPEN_FILE       1  ///< ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_ERR_WRITE_FILE      2  ///< Ð´ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_ERR_READ_FILE       3  ///< ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_ERR_PARSE_FILE      4  ///< ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_ERR_INVALID_PARAM   5  ///< ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_ERR_SEEK_NULL       6  ///< ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Îªï¿½ï¿½
+#define KVDB_ERR_FULL            7  ///< ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_ERR_DELETE_FILE     8  ///< ï¿½Ä¼ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_ERR_OPEN_FOLD       9  ///< ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð´ï¿½ï¿½ï¿½
+#define KVDB_ERR_FILE_CHECK      10 ///< ï¿½Ä¼ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_ERR_FILE_DONTEXIST  11 ///< ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#define KVDB_ERR_UNKNOWN         99 ///< Î´Öªï¿½ï¿½ï¿½ï¿½
 /**@} */
 
-/**@name    ×´Ì¬±êÊ¶Î»¶¨Òå
+/**@name    ×´Ì¬ï¿½ï¿½Ê¶Î»ï¿½ï¿½ï¿½ï¿½
 * @{
 */
-#define KVDB_HEAD_FLAG           0x47  ///< ÆðÊ¼±êÊ¶
-#define KVDB_STATUS_BIT_VALID    0x01  ///< ÓÐÐ§Î»£¬0=¿ÕÏÐ¡¢1=ÓÐÐ§
+#define KVDB_HEAD_FLAG           0x47  ///< ï¿½ï¿½Ê¼ï¿½ï¿½Ê¶
+#define KVDB_STATUS_BIT_VALID    0x01  ///< ï¿½ï¿½Ð§Î»ï¿½ï¿½0=ï¿½ï¿½ï¿½Ð¡ï¿½1=ï¿½ï¿½Ð§
 #define KVDB_FILE_HEAD_FLAG      0x565a
 /**@} */
 
 /**
-* KVDB»º´æ¹¹Ôì½á¹¹Ìå£¨ÀàÍâ·ÃÎÊ£©
+* KVDBï¿½ï¿½ï¿½æ¹¹ï¿½ï¿½á¹¹ï¿½å£¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½
 */
 struct KvdbCache {
-  int size;        ///< ½Úµã´óÐ¡
-  int counter;     ///< ½Úµã¸öÊý
+  int size;        ///< ï¿½Úµï¿½ï¿½Ð¡
+  int counter;     ///< ï¿½Úµï¿½ï¿½ï¿½ï¿½
 };
 
 /**
-* KVDB»º´æ½á¹¹Ìå£¨ÀàÄÚÊ¹ÓÃ£©
+* KVDBï¿½ï¿½ï¿½ï¿½á¹¹ï¿½å£¨ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ã£ï¿½
 */
 struct KvdbRecord {
-  uint8   status;     ///<  ×´Ì¬±êÊ¶£¬VZ_TDB_HEAD_BIT_VALID
-  time_t  time_last;  ///<  ÉÏ´Î·ÃÎÊÊ±¼ä
-  char    key[KVDB_KEY_MAXLEN + 1];  ///< ¹Ø¼ü×ÖKEY
+  uint8   status;     ///<  ×´Ì¬ï¿½ï¿½Ê¶ï¿½ï¿½VZ_TDB_HEAD_BIT_VALID
+  time_t  time_last;  ///<  ï¿½Ï´Î·ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+  char    key[KVDB_KEY_MAXLEN + 1];  ///< ï¿½Ø¼ï¿½ï¿½ï¿½KEY
   int     length;     ///
-  uint8  *value;      ///< ¹Ø¼ü×ÖVALUE£¬²»Í¬µµÎ»¶ÔÓ¦²»Í¬³¤¶È
-  struct  KvdbRecord *next;  ///< ÏÂÒ»¸öÊý¾Ý
+  uint8  *value;      ///< ï¿½Ø¼ï¿½ï¿½ï¿½VALUEï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½Î»ï¿½ï¿½Ó¦ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½
+  struct  KvdbRecord *next;  ///< ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 };
 
 class KvdbService {
  public:
   /**
-  * @brief ¹¹Ôìº¯Êý
-  * ¸ù¾ÝÎÄ¼þÃû´´½¨skvdbºÍÆÕÍ¨kvdb£¬ÒµÎñ²ãÊµÏÖ²»Í¬²Ù×÷¹æÔò
-  * »º´æÐòÁÐÐèÒª¸ù¾Ý³¤¶ÈÓÉÐ¡µ½´ïÅÅÁÐ
-  * LITEOSÏÂÄ¬ÈÏ²»¿ªÉè»º´æ£¬±äÁ¿cache£¬cache_cntÊ§Ð§
-  * @param[in] foldpath    ÎÄ¼þ¼ÐÂ·¾¶
-  * @param[in] cache       »º´æÀàÐÍ¶¨ÒåÐòÁÐ
-  * @param[in] cache_cnt   »º´æÀàÐÍ¶¨Òå¸öÊý
+  * @brief ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
+  * ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½skvdbï¿½ï¿½ï¿½ï¿½Í¨kvdbï¿½ï¿½Òµï¿½ï¿½ï¿½Êµï¿½Ö²ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  * LITEOSï¿½ï¿½Ä¬ï¿½Ï²ï¿½ï¿½ï¿½ï¿½è»ºï¿½æ£¬ï¿½ï¿½ï¿½ï¿½cacheï¿½ï¿½cache_cntÊ§Ð§
+  * @param[in] foldpath    ï¿½Ä¼ï¿½ï¿½ï¿½Â·ï¿½ï¿½
+  * @param[in] cache       ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  * @param[in] cache_cnt   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
   KvdbService(const char *foldpath,
               struct KvdbCache *cache,
               int cache_cnt,
               int property = 0);
   /**
-  * @brief Îö¹¹º¯Êý
+  * @brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
   ~KvdbService();
   /**
-  * @brief ÐÞ¸Ä»òÔö¼ÓÒ»Ìõ¼ÇÂ¼
-  * Èç¹ûÒÑ±£´æÏàÍ¬¹Ø¼ü×Ö¼ÇÂ¼¾ÍÐÞ¸Ä£¬·ñÔòÐÂÔö
-  * @param[in] key    ¹Ø¼ü×Ö
+  * @brief ï¿½Þ¸Ä»ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Â¼
+  * ï¿½ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Ø¼ï¿½ï¿½Ö¼ï¿½Â¼ï¿½ï¿½ï¿½Þ¸Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  * @param[in] key    ï¿½Ø¼ï¿½ï¿½ï¿½
   * @param[in] value    Öµ
-  * @param[in] length   Öµ³¤¶È
+  * @param[in] length   Öµï¿½ï¿½ï¿½ï¿½
   *
-  * @return ·µ»Ø²Ù×÷½á¹û
+  * @return ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
   KvdbError Replace(const std::string &key, const uint8 *value, int length);
   /**
-  * @brief ÐÞ¸Ä»òÔö¼ÓÒ»Ìõ¼ÇÂ¼
-  * Èç¹ûÒÑ±£´æÏàÍ¬¹Ø¼ü×Ö¼ÇÂ¼¾ÍÐÞ¸Ä£¬·ñÔòÐÂÔö
-  * @param[in] key    ¹Ø¼ü×Ö
+  * @brief ï¿½Þ¸Ä»ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Â¼
+  * ï¿½ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Ø¼ï¿½ï¿½Ö¼ï¿½Â¼ï¿½ï¿½ï¿½Þ¸Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  * @param[in] key    ï¿½Ø¼ï¿½ï¿½ï¿½
   * @param[in] value    Öµ
   *
-  * @return ·µ»Ø²Ù×÷½á¹û
+  * @return ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
-  KvdbError Replace(const std::string &key, const vzstd::string &value);
+  KvdbError Replace(const std::string &key, const std::string &value);
   /**
-  * @brief É¾³ý¼ÇÂ¼
-  * @param[in] key    ¹Ø¼ü×Ö
+  * @brief É¾ï¿½ï¿½ï¿½ï¿½Â¼
+  * @param[in] key    ï¿½Ø¼ï¿½ï¿½ï¿½
   *
-  * @return ·µ»Ø²Ù×÷½á¹û
+  * @return ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
   KvdbError Remove(const std::string &key);
   /**
-  * @brief Çå¿Õ¼ÇÂ¼
-  * @param[in] target_fold    ´ýÇå¿ÕµÄÎÄ¼þ¼ÐÄ¿Â¼
+  * @brief ï¿½ï¿½Õ¼ï¿½Â¼
+  * @param[in] target_fold    ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ä¿Â¼
   *
-  * @return ·µ»Ø²Ù×÷½á¹û
+  * @return ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
   KvdbError Clear(const char *target_fold = NULL);
   /**
-    * @brief ²éÕÒ¼ÇÂ¼
-    * ¸ù¾Ý¹Ø¼ü×Ö²éÕÒ¼ÇÂ¼
-    * @param[in] key     ´ý²é¹Ø¼ü×Ö
-    * @param[out] get_value     ²éÑ¯½á¹û
-    * @param[inout] length     ÊäÈë£º»º´æ´óÐ¡£»Êä³ö£ºÊµ¼Ê¶ÁÈ¡³¤¶È
+    * @brief ï¿½ï¿½ï¿½Ò¼ï¿½Â¼
+    * ï¿½ï¿½ï¿½Ý¹Ø¼ï¿½ï¿½Ö²ï¿½ï¿½Ò¼ï¿½Â¼
+    * @param[in] key     ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½
+    * @param[out] get_value     ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½
+    * @param[inout] length     ï¿½ï¿½ï¿½ë£ºï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Ê¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½
     *
-    * @return ·µ»Ø²Ù×÷½á¹û
+    * @return ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     */
   KvdbError Seek(const std::string &key, uint8 *get_data, int *length);
   /**
-  * @brief ²éÕÒ¼ÇÂ¼
-  * ¸ù¾Ý¹Ø¼ü×Ö²éÕÒ¼ÇÂ¼
-  * @param[in] key     ´ý²é¹Ø¼ü×Ö
-  * @param[out] get_value     ²éÑ¯½á¹û
+  * @brief ï¿½ï¿½ï¿½Ò¼ï¿½Â¼
+  * ï¿½ï¿½ï¿½Ý¹Ø¼ï¿½ï¿½Ö²ï¿½ï¿½Ò¼ï¿½Â¼
+  * @param[in] key     ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½
+  * @param[out] get_value     ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½
   *
-  * @return ·µ»Ø²Ù×÷½á¹û
+  * @return ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
-  KvdbError Seek(const std::string &key, vzstd::string &get_value);
+  KvdbError Seek(const std::string &key, std::string &get_value);
   /**
-  * @brief ±¸·Ý
-  *  ½«µ±Ç°ÎÄ¼þ¼ÐÎÄ¼þ±¸·Ýµ½±¸·ÝÎÄ¼þ¼Ð
-  * @param[in] backup_fold    ±¸·ÝÎÄ¼þ¼ÐÂ·¾¶
+  * @brief ï¿½ï¿½ï¿½ï¿½
+  *  ï¿½ï¿½ï¿½ï¿½Ç°ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
+  * @param[in] backup_fold    ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Â·ï¿½ï¿½
   *
-  * @return ·µ»Ø²Ù×÷½á¹û
+  * @return ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
   KvdbError Backup(const char *backup_fold);
   /**
-  * @brief »¹Ô­
-  *  ½«±¸·ÝÎÄ¼þ¼ÐÎÄ¼þ±¸·Ýµ½µ±Ç°ÎÄ¼þ¼Ð
-  * @param[in] backup_fold    ±¸·ÝÎÄ¼þ¼ÐÂ·¾¶
+  * @brief ï¿½ï¿½Ô­
+  *  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½Ç°ï¿½Ä¼ï¿½ï¿½ï¿½
+  * @param[in] backup_fold    ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Â·ï¿½ï¿½
   *
-  * @return ·µ»Ø²Ù×÷½á¹û
+  * @return ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
   KvdbError Restore(const char *backup_fold);
 
@@ -190,38 +190,38 @@ class KvdbService {
 
 #ifdef _DEBUG
   /**
-  * @brief ´òÓ¡»º´æ
-  *  µ÷ÊÔ´úÂë£¬´òÓ¡»º´æÖÐÓÐÐ§½ÚµãÐÅÏ¢
+  * @brief ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½
+  *  ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ë£¬ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Úµï¿½ï¿½ï¿½Ï¢
   */
   void DebugCacheShow();
 #endif
 
  private:
   int ReadFile(const std::string &key, uint8 *get_data, int *length, bool isbak);
-  int ReadFile(const std::string &key, vzstd::string &get_data, bool isbak);
+  int ReadFile(const std::string &key, std::string &get_data, bool isbak);
   int WriteFile(const std::string &key, uint8 *buffer, int length, bool isbak);
   /**
-  * @brief ´´½¨ÎÄ¼þ¼Ð
+  * @brief ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
   */
   KvdbError FoldCreate(const char *fold_path);
   /**
-  * @brief ¸´ÖÆÎÄ¼þ¼Ð
+  * @brief ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
   */
   KvdbError FoldCopy(const char *target_fold, const char *src_fold);
   /**
-  * @brief ¸´ÖÆÎÄ¼þ
+  * @brief ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
   */
   KvdbError FileCopy(const char *target_filename, const char *src_filename);
   /**
-  * @brief ²éÕÒ½Úµã
+  * @brief ï¿½ï¿½ï¿½Ò½Úµï¿½
   */
   struct KvdbRecord *NodeFind(const std::string &key);
   /**
-  * @brief ²éÕÒ¿ÕÏÐ»ò×î¾Ã½Úµã
+  * @brief ï¿½ï¿½ï¿½Ò¿ï¿½ï¿½Ð»ï¿½ï¿½ï¿½Ã½Úµï¿½
   */
   struct KvdbRecord *NodeOldest(int length);
 
-  vzes::CriticalSection  crit_; /* Ïß³Ì»¥³âËø */
+  vzes::CriticalSection  crit_; /* ï¿½ß³Ì»ï¿½ï¿½ï¿½ï¿½ï¿½ */
   char foldpath_[KVDB_FILE_PATH_MAXLEN + 1];
   struct KvdbRecord *cache_list_[KVDB_CACHE_MAXNUM];
   int cache_size_[KVDB_CACHE_MAXNUM];

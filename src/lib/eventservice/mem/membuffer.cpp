@@ -204,7 +204,7 @@ bool MemBuffer::ReadBuffer(MemBuffer::Ptr buffer, size_t len) {
 
 // Appends next |len| bytes from the buffer to |val|. Returns false
 // if there is less than |len| bytes left.
-bool MemBuffer::ReadString(vzstd::string* val, size_t len) {
+bool MemBuffer::ReadString(std::string* val, size_t len) {
   if (size_ < len) {
     return false;
   }
@@ -226,8 +226,8 @@ bool MemBuffer::ReadString(vzstd::string* val, size_t len) {
 }
 
 
-vzstd::string MemBuffer::ToString() {
-  vzstd::string result;
+std::string MemBuffer::ToString() {
+  std::string result;
   for (BlocksPtr::iterator iter = blocks_.begin();
        iter != blocks_.end(); iter++) {
     result.append((const char *)((*iter)->buffer), (*iter)->buffer_size);
@@ -339,7 +339,7 @@ size_t MemBuffer::CopyBytes(char* val, size_t pos, size_t len) {
 
 // Appends next |len| bytes from the buffer to |val|. Returns false
 // if there is less than |len| bytes left.
-bool MemBuffer::CopyString(size_t pos, vzstd::string* val, size_t len) {
+bool MemBuffer::CopyString(size_t pos, std::string* val, size_t len) {
   if (size_ - pos < len) {
     return false;
   }
@@ -395,7 +395,7 @@ void MemBuffer::WriteUInt64(uint64 val) {
   WriteBytes((const char *)&val, sizeof(uint64));
 }
 
-void MemBuffer::WriteString(const vzstd::string& val) {
+void MemBuffer::WriteString(const std::string& val) {
   WriteBytes(val.c_str(), val.size());
 }
 
@@ -468,7 +468,7 @@ size_t Block::ReadBytes(char* val, size_t len) {
 }
 
 
-size_t Block::ReadString(vzstd::string* val, size_t len) {
+size_t Block::ReadString(std::string* val, size_t len) {
   if (0 == buffer_size || len == 0) {
     return 0;
   }
@@ -492,7 +492,7 @@ size_t Block::CopyBytes(size_t pos, char* val, size_t len) {
   return copy_size;
 }
 
-size_t Block::CopyString(size_t pos, vzstd::string* val, size_t len) {
+size_t Block::CopyString(size_t pos, std::string* val, size_t len) {
   if (pos > buffer_size || len == 0) {
     return 0;
   }

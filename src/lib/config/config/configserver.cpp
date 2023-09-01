@@ -41,7 +41,7 @@
 
 namespace config {
 
-ConfigServer::ConfigServer(vzstd::string module_name,
+ConfigServer::ConfigServer(std::string module_name,
                            CFG_MODULE_PROPERTY module_property) {
   char buf[1000];
   if (module_name.length() > GROUP_NAME_MAX_LEN) {
@@ -74,7 +74,7 @@ ConfigServer::ConfigServer(vzstd::string module_name,
 }
 
 int ConfigServer::OpenXMLDoc(ConfigServer::XMLDocumentPtr &xml_doc,
-                             const vzstd::string &file_path) {
+                             const std::string &file_path) {
   xml_doc.reset(new tinyxml2::XMLDocument);
   if (file_path.length() == 0) {
     return CFG_OP_INNER_ERR;
@@ -141,7 +141,7 @@ bool ConfigServer::SetPreCheckValFunc(PreCheckCfgValFunc pFunc,
 
 int ConfigServer::LoadXMLAttrValue(const tinyxml2::XMLElement *element,
                                    const char *attribute_name,
-                                   vzstd::string &value) {
+                                   std::string &value) {
   if (element == NULL) {
     DLOG_ERROR(MOD_EB, "Load XMLAttribute Data error. xml_element is nullptr");
     return CFG_OP_INNER_ERR;
@@ -195,7 +195,7 @@ int ConfigServer::LoadXMLEleData(int paraIndex, config::ConfigData &data) {
   return LoadXMLEleData(element, data);
 }
 
-int ConfigServer::LoadXMLEleData(const vzstd::string &param_name,
+int ConfigServer::LoadXMLEleData(const std::string &param_name,
                                  config::ConfigData &data) {
   if (!xml_doc_.get()) {
     DLOG_ERROR(MOD_EB, "Load XMLDoc Data error.xml_doc_ is nullptr");
@@ -242,7 +242,7 @@ int ConfigServer::LoadXMLEleData(tinyxml2::XMLElement *element,
     return CFG_OP_FILE_ERR;
   }
 
-  vzstd::string idx;
+  std::string idx;
   res = LoadXMLAttrValue(element, CFG_ATTR_NAME_ID, idx);
   if ( res != CFG_OP_SUCCEED) {
     return CFG_OP_FILE_ERR;
@@ -253,7 +253,7 @@ int ConfigServer::LoadXMLEleData(tinyxml2::XMLElement *element,
     return CFG_OP_FILE_ERR;
   }
 
-  vzstd::string para_type;
+  std::string para_type;
   res = LoadXMLAttrValue(element, CFG_ATTR_NAME_TYPE, para_type);
   if ( res != CFG_OP_SUCCEED) {
     return CFG_OP_FILE_ERR;
@@ -267,8 +267,8 @@ int ConfigServer::LoadXMLEleData(tinyxml2::XMLElement *element,
 
 }
 
-int ConfigServer::GetCfgValByName(const vzstd::string &paraName,
-                                  vzstd::string &val) {
+int ConfigServer::GetCfgValByName(const std::string &paraName,
+                                  std::string &val) {
   vzes::CritScope cr(&crit_);
   if (!Inited()) {
     int ret = InitXMLDoc();
@@ -284,7 +284,7 @@ int ConfigServer::GetCfgValByName(const vzstd::string &paraName,
   return GetCfgVal(data, val);
 }
 
-int ConfigServer::GetCfgValById(int paraIndex, vzstd::string &val) {
+int ConfigServer::GetCfgValById(int paraIndex, std::string &val) {
   vzes::CritScope cr(&crit_);
   if (!Inited()) {
     int ret = InitXMLDoc();
@@ -301,7 +301,7 @@ int ConfigServer::GetCfgValById(int paraIndex, vzstd::string &val) {
 }
 
 int ConfigServer::GetCfgVal(const ConfigData &data,
-                            vzstd::string &val,
+                            std::string &val,
                             bool use_default) {
   if (data.para_type != PARA_TYPE_STRING &&
       data.para_type != PARA_TYPE_USER_DEFINE) {
@@ -327,7 +327,7 @@ int ConfigServer::GetArrayCfgVal(const ConfigData &data,
   element = data.element->FirstChildElement(CFG_ATTR_NAME_ITEM);
 
   ConfigData item_data = data;
-  vzstd::string item_type_str;
+  std::string item_type_str;
   int ret = LoadXMLAttrValue(data.element, CFG_ATTR_NAME_ITEM_TYPE, item_type_str);
   if (ret != CFG_OP_SUCCEED) {
     return ret;
@@ -355,7 +355,7 @@ int ConfigServer::GetArrayCfgVal(const ConfigData &data,
   return CFG_OP_SUCCEED;
 }
 
-int ConfigServer::ConvertStringToConfigParamType(const vzstd::string &str,
+int ConfigServer::ConvertStringToConfigParamType(const std::string &str,
     ConfigParamType &type) {
   int pt_i;
   if (sscanf(str.c_str(), "%d", &pt_i) != 1) {
@@ -479,7 +479,7 @@ int ConfigServer::GetCfgVal(const ConfigData &data,
 }
 
 
-int ConfigServer::GetCfgValByName(const vzstd::string &paraName,
+int ConfigServer::GetCfgValByName(const std::string &paraName,
                                   void *val,
                                   int val_len) {
   vzes::CritScope cr(&crit_);
@@ -515,7 +515,7 @@ int ConfigServer::GetCfgValById(int paraIndex,
   return GetCfgVal(data, val, val_len);
 }
 
-int ConfigServer::SetCfgValByName(const vzstd::string &param_name,
+int ConfigServer::SetCfgValByName(const std::string &param_name,
                                   const void *val, int val_len) {
   vzes::CritScope cr(&crit_);
   if (!Inited()) {
@@ -532,14 +532,14 @@ int ConfigServer::SetCfgValByName(const vzstd::string &param_name,
   if (data.para_type == PARA_TYPE_STRING) {
     return CFG_OP_TYPE_ERR;
   }
-  vzstd::string val_str;
+  std::string val_str;
   val_str.append((char *)val, val_len);
   ConfigParamNode config(param_name, data.para_type, val_str);
   return SetCfgVal(data, config);
 }
 
-int ConfigServer::SetCfgValByName(const vzstd::string &param_name,
-                                  const vzstd::string &val) {
+int ConfigServer::SetCfgValByName(const std::string &param_name,
+                                  const std::string &val) {
   vzes::CritScope cr(&crit_);
   if (!Inited()) {
     int ret = InitXMLDoc();
@@ -573,14 +573,14 @@ int ConfigServer::SetCfgValById(const int param_index,
   if (data.para_type == PARA_TYPE_STRING) {
     return CFG_OP_TYPE_ERR;
   }
-  vzstd::string val_str;
+  std::string val_str;
   val_str.append((char *)val, val_len);
   ConfigParamNode config(param_index, data.para_type, val_str);
   return SetCfgVal(data, config);
 }
 
 int ConfigServer::SetCfgValById(const int param_index,
-                                const vzstd::string &val) {
+                                const std::string &val) {
   vzes::CritScope cr(&crit_);
   if (!xml_doc_.get()) {
     return CFG_OP_FILE_ERR;
@@ -600,7 +600,7 @@ int ConfigServer::SetArrayCfgVal(const ConfigData &data,
     return CFG_OP_INNER_ERR;
   }
   ConfigData item_data = data;
-  vzstd::string max_size_str;
+  std::string max_size_str;
   LoadXMLAttrValue(data.element, CFG_ATTR_NAME_ITEM_MAX_SIZE, max_size_str);
   int max_size;
   if (sscanf(max_size_str.c_str(), "%d", &max_size) != 1) {
@@ -881,7 +881,7 @@ ConfigServerManager *ConfigServerManager::GetCfgSrvManIns() {
 }
 
 ConfigServer::Ptr ConfigServerManager::GetConfigServer(
-  vzstd::string module_name,
+  std::string module_name,
   CFG_MODULE_PROPERTY module_property) {
   vzes::CritScope cr(&crit_);
   ConfigServerPtrs::iterator iter, tmp_iter;

@@ -72,7 +72,7 @@ class KvdbApp : public app::AppInterface,
 
   void kvdb_test_case_1() {
     DLOG_INFO(MOD_EB, ">>> kvdb test case 1 start");
-    vzstd::string value;
+    std::string value;
     kvdb_client_->GetKey(KVDB_KEY_HELLO, &value);
     if (!strcmp((const char*)KVDB_VALUE_HELLO, (const char*)value.c_str())) {
       DLOG_INFO(MOD_EB, "kvdb test case 1 successed ^_^");
@@ -202,7 +202,7 @@ class KvdbApp : public app::AppInterface,
 
     char key[64];
     char w_value[1024];
-    vzstd::string r_value;
+    std::string r_value;
     int i = 0;
 
     for(int i = 0; i < 3; i++) {
@@ -252,7 +252,7 @@ class KvdbApp : public app::AppInterface,
 
   void kvdb_test_case_5() {
     DLOG_INFO(MOD_EB, ">>> kvdb test case 5 start");
-    vzstd::string value;
+    std::string value;
     kvdb_client_->SetProperty(KVDB_SAFE_MODE);
     kvdb_client_->GetKey(KVDB_KEY_WORLD, &value);
     if (!strcmp((const char*)KVDB_VALUE_WORLD, (const char*)value.c_str())) {
@@ -735,12 +735,12 @@ class FileCacheApp : public app::AppInterface,
       vzes::MemBuffer::Ptr image_buffer;
       image_buffer = cache_client_->Read(read_file_name);
       if (image_buffer && (image_buffer->size() > 0)) {
-        vzstd::string encode_data;
+        std::string encode_data;
         vzes::BlocksPtr &blocks = image_buffer->blocks();
         vzes::Base64::EncodeFromArray(image_buffer, 0, blocks.size() - 1, &encode_data);
         //vzes::Base64::EncodeFromArray(image_buffer, &encode_data, 0);
 
-        vzstd::string decode_data;
+        std::string decode_data;
         decode_data = vzes::Base64::Decode(encode_data,  vzes::Base64::DO_LAX);
         Log_HexDump("> decode_data last two bytes",
                     (const unsigned char*)((char*)decode_data.c_str() + decode_data.size() - 2), 2);
@@ -792,10 +792,10 @@ class FileCacheApp : public app::AppInterface,
       return;
     }
 
-    vzstd::string encode_data;
+    std::string encode_data;
     vzes::Base64::EncodeFromArray((const void*)read_buffer, read_size, &encode_data);
 
-    vzstd::string decode_data;
+    std::string decode_data;
     decode_data = vzes::Base64::Decode(encode_data,  vzes::Base64::DO_LAX);
     Log_HexDump("> decode_data last two bytes",
                 (const unsigned char*)((char*)decode_data.c_str() + decode_data.size() - 2), 2);

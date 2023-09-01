@@ -92,7 +92,7 @@ class ByteBuffer {
   void WriteUInt24(uint32 val);
   void WriteUInt32(uint32 val);
   void WriteUInt64(uint64 val);
-  void WriteString(const vzstd::string& val);
+  void WriteString(const std::string& val);
   void WriteBytes(const char* val, size_t len);
 
   // Reserves the given number of bytes and returns a char* that can be written

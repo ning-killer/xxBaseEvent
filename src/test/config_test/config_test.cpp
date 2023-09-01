@@ -81,7 +81,7 @@ void read_test() {
   return;
 }
 
-int user_check(vzstd::string groupName,
+int user_check(std::string groupName,
                std::vector<ConfigParamNode> params,
                void *userData) {
   if (groupName != "test") {
@@ -109,7 +109,7 @@ class ConfigClientApp : public app::AppInterface,
   ConfigClientApp>,
   public sigslot::has_slots<> {
  public:
-  ConfigClientApp(vzstd::string str,
+  ConfigClientApp(std::string str,
                   CFG_MODULE_PROPERTY pgp = CFG_M_SEC_NOR)
     : AppInterface("ConfigClientApp") {
     name_ = str;
@@ -141,7 +141,7 @@ class ConfigClientApp : public app::AppInterface,
   bool error_type_test();
   bool call_back_test();
   bool configs_node_test();
-  vzstd::string name_;
+  std::string name_;
   CFG_MODULE_PROPERTY pgp_;
 };
 
@@ -487,8 +487,8 @@ bool ConfigClientApp::string_test() {
   } else {
     char buffer[1000];
     sprintf(buffer, "test_test%d", global_count++);
-    vzstd::string str(buffer);
-    vzstd::string rd;
+    std::string str(buffer);
+    std::string rd;
     //name
     if (cfg_client->SetCfgValByName("string", str, name_, pgp_) != CFG_OP_SUCCEED) {
       succeed = false;
@@ -501,7 +501,7 @@ bool ConfigClientApp::string_test() {
     }
     //id
     sprintf(buffer, "test_test%d", global_count++);
-    str = vzstd::string(buffer);
+    str = std::string(buffer);
     if (cfg_client->SetCfgValById(5, str, name_, pgp_) != CFG_OP_SUCCEED) {
       succeed = false;
     }
@@ -545,7 +545,7 @@ bool ConfigClientApp::call_back_test() {
     int64 num1 = 4e7;
     int64 num2 = test_tot - num1;
     std::vector<ConfigParamNode> v, v2;
-    vzstd::string num1_str, num2_str;
+    std::string num1_str, num2_str;
     num1_str.resize(sizeof(int64));
     memcpy((void *)num1_str.c_str(), &num1, sizeof(int64));
     num2_str.resize(sizeof(int64));
@@ -585,7 +585,7 @@ bool ConfigClientApp::default_test() {
     double vd;
     float vf;
     int64 vi64;
-    vzstd::string str;
+    std::string str;
     if (cfg_client->GetCfgValByName("int", &vi, sizeof(int), name_, pgp_)
         != CFG_OP_SUCCEED) {
       succeed = false;
@@ -638,7 +638,7 @@ bool ConfigClientApp::error_type_test() {
     double vd = 1;
     float vf = 1;
     int64 vi64 = 1;
-    vzstd::string str = "1";
+    std::string str = "1";
     if (cfg_client->SetCfgValByName("int", str, name_, pgp_)
         == CFG_OP_SUCCEED) {
       succeed = false;

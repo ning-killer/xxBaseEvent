@@ -83,7 +83,7 @@ void CacheClientAgent::OnSocketReadComplete(
   uint16 flag) {
   DLOG_DEBUG(MOD_EB, "Socket recv data");
 
-  vzstd::string packet = data->ToString();
+  std::string packet = data->ToString();
   if (packet.size() < sizeof(CacheNetMessage)) {
     DLOG_ERROR(MOD_EB, "Invalid Cache Net message length:%d", packet.size());
     return;
@@ -114,7 +114,7 @@ void CacheClientAgent::OnSocketReadComplete(
   (void) async_socket_->AsyncRead();
 }
 
-void CacheClientAgent::onWriteMessage(const vzstd::string &packet) {
+void CacheClientAgent::onWriteMessage(const std::string &packet) {
   DLOG_DEBUG(MOD_EB, "cacheclientagent onWriteMessage");
   CacheNetMessage *msg = (CacheNetMessage *) packet.c_str();
   if (packet.length()
@@ -140,7 +140,7 @@ void CacheClientAgent::onWriteMessage(const vzstd::string &packet) {
   async_socket_->AsyncWritePacket(res_buffer, 0);
 }
 
-void CacheClientAgent::onReadMessage(const vzstd::string &packet) {
+void CacheClientAgent::onReadMessage(const std::string &packet) {
   DLOG_DEBUG(MOD_EB, "cacheclientagent onReadMessage");
   CacheNetMessage *msg = (CacheNetMessage *) packet.c_str();
   if (packet.length() < sizeof(CacheNetMessage) + msg->path_len) {
@@ -176,7 +176,7 @@ void CacheClientAgent::onReadMessage(const vzstd::string &packet) {
   async_socket_->AsyncWritePacket(res_buffer, 0);
 }
 
-void CacheClientAgent::onDeleteMessage(const vzstd::string &packet) {
+void CacheClientAgent::onDeleteMessage(const std::string &packet) {
   DLOG_DEBUG(MOD_EB, "cacheclientagent onDeleteMessage");
   CacheNetMessage *msg = (CacheNetMessage *) packet.c_str();
   if (packet.length() < sizeof(CacheNetMessage) + msg->path_len) {

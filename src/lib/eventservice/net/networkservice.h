@@ -130,7 +130,7 @@ class PhysicalSocket : public Socket,
   // AsyncResolver* resolver_;
 
 #ifdef _DEBUG
-  vzstd::string dbg_addr_;
+  std::string dbg_addr_;
 #endif  // _DEBUG;
 };
 

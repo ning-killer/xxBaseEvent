@@ -33,7 +33,7 @@
 
 namespace cache {
 
-// kvdb´æ´¢Â·¾¶
+// kvdbï¿½æ´¢Â·ï¿½ï¿½
 #ifdef WIN32
 #define KVDB_PARENT_FOLD			"D:\\kvdb"
 #define KVDB_BACKUP_PARENT_FOLD		"D:\\backup\\kvdb"
@@ -54,7 +54,7 @@ namespace cache {
 
 #define KVDB_SUCCEED       true
 #define KVDB_FAILURE       false
-#define KVDB_SAFE_MODE     0x01  // KVDB°²È«Ä£Ê½ÑÚÂë
+#define KVDB_SAFE_MODE     0x01  // KVDBï¿½ï¿½È«Ä£Ê½ï¿½ï¿½ï¿½ï¿½
 
 #define KVDB_CLEAR_TYPE_MAIN	0x01
 #define KVDB_CLEAR_TYPE_BAK		0x02
@@ -71,9 +71,9 @@ class KvdbClient {
                       const char *value, uint32 value_size) = 0;
 
   virtual bool GetKey(const char *key, uint8 key_size,
-                      vzstd::string *result) = 0;
+                      std::string *result) = 0;
   virtual bool GetKey(const std::string key,
-                      vzstd::string *result) = 0;
+                      std::string *result) = 0;
   virtual bool GetKey(const std::string key,
                       void *buffer,
                       std::size_t buffer_size) = 0;
@@ -82,25 +82,25 @@ class KvdbClient {
 
   virtual bool DeleteKey(const char *key, uint8 key_size) = 0;
 
-  // ÉèÖÃkvdbµÄÊôÐÔÖµproperty, ¿ÉÈ¡ÖµÎª£ºKVDB_SAFE_MODE
-  // KVDB_SAFE_MODE£ºÒÔ°²È«Ä£Ê½ÔËÐÐ£¬¶ÁÈ¡»áÐ£ÑéÎÄ¼þÕýÈ·ÐÔ£¬Ö÷ÎÄ¼þ´íÎó»á¶ÁÈ¡Ð£ÑéÎÄ¼þ£¬
-  // ÈôÐ£ÑéÎÄ¼þÈÔ´íÎóÔò¶ÁÈ¡Ê§°Ü¡£
-  // return: ÉèÖÃ½á¹û
+  // ï¿½ï¿½ï¿½ï¿½kvdbï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµproperty, ï¿½ï¿½È¡ÖµÎªï¿½ï¿½KVDB_SAFE_MODE
+  // KVDB_SAFE_MODEï¿½ï¿½ï¿½Ô°ï¿½È«Ä£Ê½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½È·ï¿½Ô£ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ð£ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
+  // ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ê§ï¿½Ü¡ï¿½
+  // return: ï¿½ï¿½ï¿½Ã½ï¿½ï¿½
   virtual bool SetProperty(int property) = 0;
-  // »ñÈ¡kvdbµÄÊôÐÔÖµproperty, ÓÐÐ§µÄÖµÎª£ºKVDB_SAFE_MODE
-  // KVDB_SAFE_MODE£ºÒÔ°²È«Ä£Ê½ÔËÐÐ£¬¶ÁÈ¡»áÐ£ÑéÎÄ¼þÕýÈ·ÐÔ£¬Ö÷ÎÄ¼þ´íÎó»á¶ÁÈ¡Ð£ÑéÎÄ¼þ£¬
-  // ÈôÐ£ÑéÎÄ¼þÈÔ´íÎóÔò¶ÁÈ¡Ê§°Ü¡£
-  // return: »ñÈ¡½á¹û
+  // ï¿½ï¿½È¡kvdbï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµproperty, ï¿½ï¿½Ð§ï¿½ï¿½ÖµÎªï¿½ï¿½KVDB_SAFE_MODE
+  // KVDB_SAFE_MODEï¿½ï¿½ï¿½Ô°ï¿½È«Ä£Ê½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½È·ï¿½Ô£ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ð£ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
+  // ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ê§ï¿½Ü¡ï¿½
+  // return: ï¿½ï¿½È¡ï¿½ï¿½ï¿½
   virtual bool GetProperty(int &protperty) = 0;
 
-  //±¸·Ýµ±Ç°kvdbÊý¾Ý
+  //ï¿½ï¿½ï¿½Ýµï¿½Ç°kvdbï¿½ï¿½ï¿½ï¿½
   virtual bool BackupDatabase() = 0;
 
-  //»Ö¸´µ½´ËÇ°µÄkvdb±¸·Ý°æ±¾¡£Èô´ËÇ°Ã»ÓÐ±¸·ÝÔò»áÇå¿Õµ±Ç°kvdb¡£
+  //ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½kvdbï¿½ï¿½ï¿½Ý°æ±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ã»ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½Ç°kvdbï¿½ï¿½
   virtual bool RestoreDatabase() = 0;
 
-  //Çå¿Õkvdb¡£°üÀ¨Çý¶¯´´½¨µÄ/usr_backÎÄ¼þ¼Ð¶ÔÓ¦µÄkvdb±¸·Ý¡£
-  //clear_type£º1 Ö÷Ä¿Â¼¡£ 2 bakÄ¿Â¼¡£3 Ö÷Ä¿Â¼+bakÄ¿Â¼¡£
+  //ï¿½ï¿½ï¿½kvdbï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/usr_backï¿½Ä¼ï¿½ï¿½Ð¶ï¿½Ó¦ï¿½ï¿½kvdbï¿½ï¿½ï¿½Ý¡ï¿½
+  //clear_typeï¿½ï¿½1 ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ 2 bakÄ¿Â¼ï¿½ï¿½3 ï¿½ï¿½Ä¿Â¼+bakÄ¿Â¼ï¿½ï¿½
   virtual bool Clear(uint8 clear_type =
                        KVDB_CLEAR_TYPE_MAIN | KVDB_CLEAR_TYPE_BAK) = 0;
 };

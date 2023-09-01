@@ -231,7 +231,7 @@ KvdbError KvdbService::Replace(const std::string &key,
 }
 
 KvdbError KvdbService::Replace(const std::string &key,
-                               const vzstd::string &value) {
+                               const std::string &value) {
   return Replace(key, (const uint8 *) value.c_str(), (int) value.length());
 }
 
@@ -378,7 +378,7 @@ KvdbError KvdbService::Seek(const std::string &key,
   return KVDB_ERR_OK;
 }
 
-KvdbError KvdbService::Seek(const std::string &key, vzstd::string &get_value) {
+KvdbError KvdbService::Seek(const std::string &key, std::string &get_value) {
   struct KvdbRecord *record;
 
   if (key.length() == 0 || key.length() > KVDB_KEY_MAXLEN) {
@@ -601,7 +601,7 @@ int KvdbService::ReadFile(const std::string &key,
 }
 
 int KvdbService::ReadFile(const std::string &key,
-                          vzstd::string &get_data,
+                          std::string &get_data,
                           bool isbak) {
   // 准备文件路径
   uint8 buf[KVDB_TMP_BUFFER_LEN + 1];

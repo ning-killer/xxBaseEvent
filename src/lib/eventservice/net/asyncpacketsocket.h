@@ -50,7 +50,7 @@ class AsyncPacketSocket : public boost::noncopyable,
   virtual void            Close();
   const SocketAddress     local_addr();
   const SocketAddress     remote_addr();
-  vzstd::string           ip_addr();
+  std::string           ip_addr();
   bool                    IsOpen() const;
   bool                    IsClose();
   // Socket::Ptr               SocketNumber();

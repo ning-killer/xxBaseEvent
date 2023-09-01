@@ -57,7 +57,7 @@ SocketAddress::SocketAddress() {
   Clear();
 }
 
-SocketAddress::SocketAddress(const vzstd::string& hostname, int port) {
+SocketAddress::SocketAddress(const std::string& hostname, int port) {
   SetIP(hostname);
   SetPort(port);
 }
@@ -115,7 +115,7 @@ void SocketAddress::SetIP(const IPAddress& ip) {
   scope_id_ = 0;
 }
 
-void SocketAddress::SetIP(const vzstd::string& hostname) {
+void SocketAddress::SetIP(const std::string& hostname) {
   hostname_ = hostname;
   literal_ = IPFromString(hostname, &ip_);
   if (!literal_) {
@@ -151,7 +151,7 @@ uint16 SocketAddress::port() const {
   return port_;
 }
 
-vzstd::string SocketAddress::HostAsURIString() const {
+std::string SocketAddress::HostAsURIString() const {
   // If the hostname was a literal IP string, it may need to have square
   // brackets added (for SocketAddress::ToString()).
   if (!literal_ && !hostname_.empty())
@@ -159,13 +159,13 @@ vzstd::string SocketAddress::HostAsURIString() const {
   return ip_.ToString();
 }
 
-vzstd::string SocketAddress::PortAsString() const {
+std::string SocketAddress::PortAsString() const {
   std::ostringstream ost;
   ost << port_;
   return ost.str().c_str();
 }
 
-vzstd::string SocketAddress::ToString() const {
+std::string SocketAddress::ToString() const {
   std::ostringstream ost;
   ost << *this;
   return ost.str().c_str();

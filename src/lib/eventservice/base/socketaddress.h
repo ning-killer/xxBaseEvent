@@ -49,7 +49,7 @@ class SocketAddress {
 
   // Creates the address with the given host and port. Host may be a
   // literal IP string or a hostname to be resolved later.
-  SocketAddress(const vzstd::string& hostname, int port);
+  SocketAddress(const std::string& hostname, int port);
 
   // Creates the address with the given IP and port.
   // IP is given as an integer in host byte order. V4 only, to be deprecated.
@@ -82,7 +82,7 @@ class SocketAddress {
 
   // Changes the hostname of this address to the given one.
   // Does not resolve the address; use Resolve to do so.
-  void SetIP(const vzstd::string& hostname);
+  void SetIP(const std::string& hostname);
 
   // Sets the IP address while retaining the hostname.  Useful for bypassing
   // DNS for a pre-resolved IP.
@@ -97,7 +97,7 @@ class SocketAddress {
   void SetPort(int port);
 
   // Returns the hostname.
-  const vzstd::string& hostname() const {
+  const std::string& hostname() const {
     return hostname_;
   }
 
@@ -129,13 +129,13 @@ class SocketAddress {
   // Returns the 'host' portion of the address (hostname or IP) in a form
   // suitable for use in a URI. If both IP and hostname are present, hostname
   // is preferred. IPv6 addresses are enclosed in square brackets ('[' and ']').
-  vzstd::string HostAsURIString() const;
+  std::string HostAsURIString() const;
 
   // Returns the port as a string.
-  vzstd::string PortAsString() const;
+  std::string PortAsString() const;
 
   // Returns hostname:port or [hostname]:port.
-  vzstd::string ToString() const;
+  std::string ToString() const;
 
   // Parses hostname:port and [hostname]:port.
   bool FromString(const std::string& str);
@@ -216,7 +216,7 @@ class SocketAddress {
   static bool StringToIP(const std::string& str, IPAddress* ip);
 
  private:
-  vzstd::string hostname_;
+  std::string hostname_;
   IPAddress ip_;
   uint16 port_;
   int scope_id_;

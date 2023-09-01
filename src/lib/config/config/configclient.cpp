@@ -38,10 +38,10 @@ class ConfigClientImpl : public ConfigClient {
   ~ConfigClientImpl() {
   }
   virtual int GetCfgValByName(
-    const vzstd::string &param_name,
+    const std::string &param_name,
     void *val,
     int val_len,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -52,9 +52,9 @@ class ConfigClientImpl : public ConfigClient {
       return cfg_srv->GetCfgValByName(param_name, val, val_len);
     }
   }
-  virtual int GetCfgValByName(const vzstd::string &param_name,
-                              vzstd::string &val,
-                              const vzstd::string &module_name,
+  virtual int GetCfgValByName(const std::string &param_name,
+                              std::string &val,
+                              const std::string &module_name,
                               CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -67,7 +67,7 @@ class ConfigClientImpl : public ConfigClient {
   }
 
   virtual int GetCfgValById(int param_index, void *val, int val_len,
-                            const vzstd::string &module_name,
+                            const std::string &module_name,
                             CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -78,8 +78,8 @@ class ConfigClientImpl : public ConfigClient {
       return cfg_srv->GetCfgValById(param_index, val, val_len);
     }
   }
-  virtual int GetCfgValById(int param_index, vzstd::string &val,
-                            const vzstd::string &module_name,
+  virtual int GetCfgValById(int param_index, std::string &val,
+                            const std::string &module_name,
                             CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -91,9 +91,9 @@ class ConfigClientImpl : public ConfigClient {
     }
   }
 
-  virtual int SetCfgValByName(const vzstd::string &param_name,
+  virtual int SetCfgValByName(const std::string &param_name,
                               const void *val, int val_len,
-                              const vzstd::string &module_name,
+                              const std::string &module_name,
                               CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -105,9 +105,9 @@ class ConfigClientImpl : public ConfigClient {
     }
   }
 
-  virtual int SetCfgValByName(const vzstd::string &param_name,
-                              const vzstd::string &val,
-                              const vzstd::string &module_name,
+  virtual int SetCfgValByName(const std::string &param_name,
+                              const std::string &val,
+                              const std::string &module_name,
                               CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -120,7 +120,7 @@ class ConfigClientImpl : public ConfigClient {
   }
 
   virtual int SetCfgValById(int param_index, const void *val, int val_len,
-                            const vzstd::string &module_name,
+                            const std::string &module_name,
                             CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -131,8 +131,8 @@ class ConfigClientImpl : public ConfigClient {
       return cfg_srv->SetCfgValById(param_index, val, val_len);
     }
   }
-  virtual int SetCfgValById(int param_index, const vzstd::string &val,
-                            const vzstd::string &module_name,
+  virtual int SetCfgValById(int param_index, const std::string &val,
+                            const std::string &module_name,
                             CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -144,7 +144,7 @@ class ConfigClientImpl : public ConfigClient {
     }
   }
   virtual int SetCfgVal(const std::vector<ConfigParamNode> &configs,
-                        const vzstd::string &module_name,
+                        const std::string &module_name,
                         CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -157,7 +157,7 @@ class ConfigClientImpl : public ConfigClient {
   }
 
   virtual int SetCfgVal(const ConfigParamNode &config,
-                        const vzstd::string &module_name,
+                        const std::string &module_name,
                         CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -172,7 +172,7 @@ class ConfigClientImpl : public ConfigClient {
   }
 
   virtual int GetAllCfgVal(std::vector<ConfigParamNode> &configs,
-                           const vzstd::string &module_name,
+                           const std::string &module_name,
                            CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -187,7 +187,7 @@ class ConfigClientImpl : public ConfigClient {
 
   virtual int GetArrayCfgVal(
     std::vector<ConfigParamNode> &configs,
-    const vzstd::string &module_name,
+    const std::string &module_name,
     CFG_MODULE_PROPERTY module_property = CFG_M_SEC_NOR) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =
@@ -200,7 +200,7 @@ class ConfigClientImpl : public ConfigClient {
   }
 
   virtual bool SetPreCheckValFunc(PreCheckCfgValFunc p_func, void *p_user_data,
-                                  const vzstd::string &module_name,
+                                  const std::string &module_name,
                                   CFG_MODULE_PROPERTY module_property) {
     ConfigServerManager *cfg_man_ins = ConfigServerManager::GetCfgSrvManIns();
     ConfigServer::Ptr cfg_srv =

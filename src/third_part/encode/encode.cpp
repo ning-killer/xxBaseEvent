@@ -1100,7 +1100,7 @@ const unsigned char  gb2uTable[] = {
   0x9f,0x39, 0x9f,0x37, 0x9f,0x3d, 0x9f,0x3e, 0x9f,0x44,
 };
 
-bool IsUtf8String(const vzstd::string str) {
+bool IsUtf8String(const std::string str) {
   int pos;
   for (pos = 0; pos < str.length();) {
     int step;
@@ -1109,8 +1109,8 @@ bool IsUtf8String(const vzstd::string str) {
     } else if ((str[pos] & 0xC0) == 0x80) {
       return false;
     } else if ((str[pos] & 0xE0) == 0xC0) {
-      //Ä¿Ç°Ê¹ÓÃµÄ×Ö·û¼¯ÊÇºº×ÖºÍÓ¢Óï£¬²»´æÔÚÁ½¸ö×Ö½Úutf-8±àÂëµÄºº×Ö
-      //Èô²»ÆÁ±Îµ¼ÖÂgbk±àÂëºº×ÖÓÐ¸ÅÂÊÅÐ¶ÏÎªutf-8£¬ËùÒÔÔÝÊ±ÆÁ±Î
+      //Ä¿Ç°Ê¹ï¿½Ãµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Çºï¿½ï¿½Öºï¿½Ó¢ï¿½ï£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½utf-8ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½
+      //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½gbkï¿½ï¿½ï¿½ëººï¿½ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½Îªutf-8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
       return false;
       step = 2;
     } else if ((str[pos] & 0xF0) == 0xE0) {
@@ -1188,8 +1188,8 @@ static void UnicodeToUTF_8(unsigned char* pOut, unsigned char* pchar) {
 }
 
 
-bool Gb2312ToUtf8(vzstd::string &outStr,
-                  const vzstd::string inputStr) {
+bool Gb2312ToUtf8(std::string &outStr,
+                  const std::string inputStr) {
   outStr.clear();
   outStr.resize(inputStr.size() * 2 + 3);
   int new_size = RGN_Gb2312_To_UTF8((unsigned char *)(void *)outStr.c_str(),
@@ -1201,8 +1201,8 @@ bool Gb2312ToUtf8(vzstd::string &outStr,
   return true;
 }
 
-bool Utf8ToGb2312(vzstd::string &outStr,
-                  const vzstd::string inputStr) {
+bool Utf8ToGb2312(std::string &outStr,
+                  const std::string inputStr) {
   outStr.clear();
   outStr.resize(inputStr.size() * 2 + 3);
   int new_size = RGN_UTF8_To_Gb2312((unsigned char *)(void *)outStr.c_str(),

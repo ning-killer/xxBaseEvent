@@ -516,7 +516,7 @@ class JSON_API Value {
   friend class ValueInternalMap;
 #endif
  public:
-  typedef std::vector<vzstd::string> Members;
+  typedef std::vector<std::string> Members;
   typedef ValueIterator iterator;
   typedef ValueConstIterator const_iterator;
   typedef Json::UInt UInt;
@@ -626,7 +626,7 @@ class JSON_API Value {
    * \endcode
    */
   Value(const StaticString &value);
-  Value(const vzstd::string &value);
+  Value(const std::string &value);
 #ifdef JSON_USE_CPPTL
   Value(const CppTL::ConstString &value);
 #endif
@@ -653,7 +653,7 @@ class JSON_API Value {
   int compare(const Value &other) const;
 
   const char *asCString() const;
-  vzstd::string asString() const;
+  std::string asString() const;
 #ifdef JSON_USE_CPPTL
   CppTL::ConstString asConstString() const;
 #endif
@@ -749,10 +749,10 @@ class JSON_API Value {
   /// that name.
   const Value &operator[](const char *key) const;
   /// Access an object value by name, create a null member if it does not exist.
-  Value &operator[](const vzstd::string &key);
+  Value &operator[](const std::string &key);
   /// Access an object value by name, returns null if there is no member with
   /// that name.
-  const Value &operator[](const vzstd::string &key) const;
+  const Value &operator[](const std::string &key) const;
   /** \brief Access an object value by name, create a null member if it does not
    exist.
 
@@ -776,7 +776,7 @@ class JSON_API Value {
   /// Return the member named key if it exist, defaultValue otherwise.
   Value get(const char *key, const Value &defaultValue) const;
   /// Return the member named key if it exist, defaultValue otherwise.
-  Value get(const vzstd::string &key, const Value &defaultValue) const;
+  Value get(const std::string &key, const Value &defaultValue) const;
 #ifdef JSON_USE_CPPTL
   /// Return the member named key if it exist, defaultValue otherwise.
   Value get(const CppTL::ConstString &key, const Value &defaultValue) const;
@@ -789,12 +789,12 @@ class JSON_API Value {
   /// \post type() is unchanged
   Value removeMember(const char *key);
   /// Same as removeMember(const char*)
-  Value removeMember(const vzstd::string &key);
+  Value removeMember(const std::string &key);
   void isremove(ArrayIndex index);
   /// Return true if the object has a member named key.
   bool isMember(const char *key) const;
   /// Return true if the object has a member named key.
-  bool isMember(const vzstd::string &key) const;
+  bool isMember(const std::string &key) const;
 #ifdef JSON_USE_CPPTL
   /// Return true if the object has a member named key.
   bool isMember(const CppTL::ConstString &key) const;
@@ -815,12 +815,12 @@ class JSON_API Value {
   /// Comments must be //... or /* ... */
   void setComment(const char *comment, CommentPlacement placement);
   /// Comments must be //... or /* ... */
-  void setComment(const vzstd::string &comment, CommentPlacement placement);
+  void setComment(const std::string &comment, CommentPlacement placement);
   bool hasComment(CommentPlacement placement) const;
   /// Include delimiters and embedded newlines.
-  vzstd::string getComment(CommentPlacement placement) const;
+  std::string getComment(CommentPlacement placement) const;
 
-  vzstd::string toStyledString() const;
+  std::string toStyledString() const;
 
   const_iterator begin() const;
   const_iterator end() const;
@@ -912,7 +912,7 @@ class JSON_API PathArgument {
   PathArgument();
   PathArgument(ArrayIndex index);
   PathArgument(const char *key);
-  PathArgument(const vzstd::string &key);
+  PathArgument(const std::string &key);
 
  private:
   enum Kind {
@@ -920,7 +920,7 @@ class JSON_API PathArgument {
     kindIndex,
     kindKey
   };
-  vzstd::string key_;
+  std::string key_;
   ArrayIndex index_;
   Kind kind_;
 };
@@ -938,7 +938,7 @@ class JSON_API PathArgument {
  */
 class JSON_API Path {
  public:
-  Path(const vzstd::string &path,
+  Path(const std::string &path,
        const PathArgument &a1 = PathArgument(),
        const PathArgument &a2 = PathArgument(),
        const PathArgument &a3 = PathArgument(),
@@ -955,12 +955,12 @@ class JSON_API Path {
   typedef std::vector<const PathArgument *> InArgs;
   typedef std::vector<PathArgument> Args;
 
-  void makePath(const vzstd::string &path, const InArgs &in);
-  void addPathInArg(const vzstd::string &path,
+  void makePath(const std::string &path, const InArgs &in);
+  void addPathInArg(const std::string &path,
                     const InArgs &in,
                     InArgs::const_iterator &itInArg,
                     PathArgument::Kind kind);
-  void invalidPath(const vzstd::string &path, int location);
+  void invalidPath(const std::string &path, int location);
 
   Args args_;
 };
@@ -1547,7 +1547,7 @@ class JSON_API Reader {
   struct StructuredError {
     size_t offset_start;
     size_t offset_limit;
-    vzstd::string message;
+    std::string message;
   };
 
   /** \brief Constructs a Reader allowing all features
@@ -1575,7 +1575,7 @@ class JSON_API Reader {
    * error occurred.
    */
   bool
-  parse(const vzstd::string &document, Value &root, bool collectComments = true);
+  parse(const std::string &document, Value &root, bool collectComments = true);
 
   /** \brief Read a Value from a <a HREF="http://www.json.org">JSON</a>
    document.
@@ -1614,7 +1614,7 @@ class JSON_API Reader {
    * \deprecated Use getFormattedErrorMessages() instead (typo fix).
    */
   JSONCPP_DEPRECATED("Use getFormattedErrorMessages instead")
-  vzstd::string getFormatedErrorMessages() const;
+  std::string getFormatedErrorMessages() const;
 
   /** \brief Returns a user friendly string that list errors in the parsed
    * document.
@@ -1624,7 +1624,7 @@ class JSON_API Reader {
    * occurred
    *         during parsing.
    */
-  vzstd::string getFormattedErrorMessages() const;
+  std::string getFormattedErrorMessages() const;
 
   /** \brief Returns a vector of structured erros encounted while parsing.
    * \return A (possibly empty) vector of StructuredError objects. Currently
@@ -1663,7 +1663,7 @@ class JSON_API Reader {
   class ErrorInfo {
    public:
     Token token_;
-    vzstd::string message_;
+    std::string message_;
     Location extra_;
   };
 
@@ -1684,7 +1684,7 @@ class JSON_API Reader {
   bool decodeNumber(Token &token);
   bool decodeNumber(Token &token, Value &decoded);
   bool decodeString(Token &token);
-  bool decodeString(Token &token, vzstd::string &decoded);
+  bool decodeString(Token &token, std::string &decoded);
   bool decodeDouble(Token &token);
   bool decodeDouble(Token &token, Value &decoded);
   bool decodeUnicodeCodePoint(Token &token,
@@ -1695,9 +1695,9 @@ class JSON_API Reader {
                                    Location &current,
                                    Location end,
                                    unsigned int &unicode);
-  bool addError(const vzstd::string &message, Token &token, Location extra = 0);
+  bool addError(const std::string &message, Token &token, Location extra = 0);
   bool recoverFromError(TokenType skipUntilToken);
-  bool addErrorAndRecover(const vzstd::string &message,
+  bool addErrorAndRecover(const std::string &message,
                           Token &token,
                           TokenType skipUntilToken);
   void skipUntilSpace();
@@ -1705,20 +1705,20 @@ class JSON_API Reader {
   Char getNextChar();
   void
   getLocationLineAndColumn(Location location, int &line, int &column) const;
-  vzstd::string getLocationLineAndColumn(Location location) const;
+  std::string getLocationLineAndColumn(Location location) const;
   void addComment(Location begin, Location end, CommentPlacement placement);
   void skipCommentTokens(Token &token);
 
   typedef std::stack<Value *> Nodes;
   Nodes nodes_;
   Errors errors_;
-  vzstd::string document_;
+  std::string document_;
   Location begin_;
   Location end_;
   Location current_;
   Location lastValueEnd_;
   Value *lastValue_;
-  vzstd::string commentsBefore_;
+  std::string commentsBefore_;
   Features features_;
   bool collectComments_;
 };
@@ -1801,7 +1801,7 @@ class JSON_API Writer {
  public:
   virtual ~Writer();
 
-  virtual vzstd::string write(const Value &root) = 0;
+  virtual std::string write(const Value &root) = 0;
 };
 
 /** \brief Outputs a Value in <a HREF="http://www.json.org">JSON</a> format
@@ -1826,12 +1826,12 @@ class JSON_API FastWriter : public Writer {
    */
   void dropNullPlaceholders();
 #ifdef __FACE__
-  inline vzstd::string & data() {
+  inline std::string & data() {
     return  document_;
   }
 #endif
  public: // overridden from Writer
-  virtual vzstd::string write(const Value &root);
+  virtual std::string write(const Value &root);
 #ifdef __FACE__
   virtual void write_big_json(const Value &root);
 #endif
@@ -1840,7 +1840,7 @@ class JSON_API FastWriter : public Writer {
   void writeBigJsonValue(const Value &value);
 #endif
   void writeValue(const Value &value);
-  vzstd::string document_;
+  std::string document_;
   bool yamlCompatiblityEnabled_;
   bool dropNullPlaceholders_;
 };
@@ -1878,27 +1878,27 @@ class JSON_API StyledWriter : public Writer {
    * \param root Value to serialize.
    * \return String containing the JSON document that represents the root value.
    */
-  virtual vzstd::string write(const Value &root);
+  virtual std::string write(const Value &root);
 
  private:
   void writeValue(const Value &value);
   void writeArrayValue(const Value &value);
   bool isMultineArray(const Value &value);
-  void pushValue(const vzstd::string &value);
+  void pushValue(const std::string &value);
   void writeIndent();
-  void writeWithIndent(const vzstd::string &value);
+  void writeWithIndent(const std::string &value);
   void indent();
   void unindent();
   void writeCommentBeforeValue(const Value &root);
   void writeCommentAfterValueOnSameLine(const Value &root);
   bool hasCommentForValue(const Value &value);
-  static vzstd::string normalizeEOL(const vzstd::string &text);
+  static std::string normalizeEOL(const std::string &text);
 
-  typedef std::vector<vzstd::string> ChildValues;
+  typedef std::vector<std::string> ChildValues;
 
   ChildValues childValues_;
-  vzstd::string document_;
-  vzstd::string indentString_;
+  std::string document_;
+  std::string indentString_;
   int rightMargin_;
   int indentSize_;
   bool addChildValues_;
@@ -1931,7 +1931,7 @@ class JSON_API StyledWriter : public Writer {
  */
 class JSON_API StyledStreamWriter {
  public:
-  StyledStreamWriter(vzstd::string indentation = "\t");
+  StyledStreamWriter(std::string indentation = "\t");
   ~StyledStreamWriter() {}
 
  public:
@@ -1947,43 +1947,43 @@ class JSON_API StyledStreamWriter {
   void writeValue(const Value &value);
   void writeArrayValue(const Value &value);
   bool isMultineArray(const Value &value);
-  void pushValue(const vzstd::string &value);
+  void pushValue(const std::string &value);
   void writeIndent();
-  void writeWithIndent(const vzstd::string &value);
+  void writeWithIndent(const std::string &value);
   void indent();
   void unindent();
   void writeCommentBeforeValue(const Value &root);
   void writeCommentAfterValueOnSameLine(const Value &root);
   bool hasCommentForValue(const Value &value);
-  static vzstd::string normalizeEOL(const vzstd::string &text);
+  static std::string normalizeEOL(const std::string &text);
 
-  typedef std::vector<vzstd::string> ChildValues;
+  typedef std::vector<std::string> ChildValues;
 
   ChildValues childValues_;
   std::ostream *document_;
-  vzstd::string indentString_;
+  std::string indentString_;
   int rightMargin_;
-  vzstd::string indentation_;
+  std::string indentation_;
   bool addChildValues_;
 };
 
 #if defined(JSON_HAS_INT64)
-vzstd::string JSON_API valueToString(Int value);
-vzstd::string JSON_API valueToString(UInt value);
+std::string JSON_API valueToString(Int value);
+std::string JSON_API valueToString(UInt value);
 #endif // if defined(JSON_HAS_INT64)
-vzstd::string JSON_API valueToString(LargestInt value);
-vzstd::string JSON_API valueToString(LargestUInt value);
-vzstd::string JSON_API valueToString(double value);
-vzstd::string JSON_API valueToString(bool value);
-vzstd::string JSON_API valueToQuotedString(const char *value);
+std::string JSON_API valueToString(LargestInt value);
+std::string JSON_API valueToString(LargestUInt value);
+std::string JSON_API valueToString(double value);
+std::string JSON_API valueToString(bool value);
+std::string JSON_API valueToQuotedString(const char *value);
 
 /// \brief Output using the StyledStreamWriter.
 /// \see Json::operator>>()
 JSON_API std::ostream &operator<<(std::ostream &, const Value &root);
 
 // userdefine
-bool String2Json(const vzstd::string& src_str, Json::Value& dst_json);
-bool Json2String(const Json::Value& src_json, vzstd::string& dst_str);
+bool String2Json(const std::string& src_str, Json::Value& dst_json);
+bool Json2String(const Json::Value& src_json, std::string& dst_str);
 
 } // namespace Json
 

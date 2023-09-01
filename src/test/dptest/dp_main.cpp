@@ -68,7 +68,7 @@ class EchoClient : public app::AppInterface,
                               DP_MESSAGE_DATA,
                               strlen(DP_MESSAGE_DATA));
     DLOG_INFO(MOD_EB, "Send dp request1 start");
-    vzstd::string *res = new vzstd::string();
+    std::string *res = new std::string();
     if (dp_client_->SendDpRequest(DP_MSG_HELLO,
                                   0,
                                   DP_MESSAGE_DATA,

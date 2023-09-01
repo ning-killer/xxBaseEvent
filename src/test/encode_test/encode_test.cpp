@@ -32,7 +32,7 @@
 
 void old_encode() {
   char s1[10000];
-  char s2[] = "Vzenith is the best company in the world.ÕéÊ¶¿Æ¼¼ÊÇÊÀ½çÉÏ×îºÃµÄ¹«Ë¾¡£zenith is the best company in the world.";
+  char s2[] = "Vzenith is the best company in the world.ï¿½ï¿½Ê¶ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄ¹ï¿½Ë¾ï¿½ï¿½zenith is the best company in the world.";
   FILE *fp1, *fp2;
   //Encode::CharEncode::Gb2312ToUtf8(s1, s2);
   //Encode::CharEncode::RGN_Gb2312_To_UTF8((unsigned char *)s1, 10000, (unsigned char *)s2, strlen(s2));
@@ -43,9 +43,9 @@ void old_encode() {
 }
 
 void new_encode() {
-  vzstd::string s1, s2;
-  s1 = "PHP ÊÇÊÀ½çÉÏ×îºÃµÄÓïÑÔ¡£";
-  s2 = "Vzenith is the best company in the world.ÕéÊ¶¿Æ¼¼ÊÇÊÀ½çÉÏ×îºÃµÄ¹«Ë¾¡£zenith is the best company in the world.";
+  std::string s1, s2;
+  s1 = "PHP ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ô¡ï¿½";
+  s2 = "Vzenith is the best company in the world.ï¿½ï¿½Ê¶ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄ¹ï¿½Ë¾ï¿½ï¿½zenith is the best company in the world.";
   FILE *fp1, *fp2;
   Gb2312ToUtf8(s1, s2);
   //Utf8ToGb2312(s1, s2);
