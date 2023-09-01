@@ -65,10 +65,6 @@ ADD_SUBDIRECTORY(src/lib/app)
 ADD_SUBDIRECTORY(src/lib/log)
 ADD_SUBDIRECTORY(src/lib/config)
 
-IF(SELF_BUILD MATCHES on)
-ADD_SUBDIRECTORY(src/lib/single_library)
-ENDIF()
-
 # Third part
 ADD_SUBDIRECTORY(src/third_part/astl)
 ADD_SUBDIRECTORY(src/third_part/json)
